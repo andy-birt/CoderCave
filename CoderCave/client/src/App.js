@@ -13,11 +13,14 @@ function App() {
   }, []);
 
   if (isLoggedIn === null) {
-    return <Spinner className="app-spinner dark" />;
+    return <Spinner color="dark" type="grow" >Loading ...</Spinner>;
   }
 
   return (
-    <ApplicationViews isLoggedIn={isLoggedIn} />
+    <>
+      {/* <Header /> */}
+      <ApplicationViews isLoggedIn={isLoggedIn} />
+    </>
   );
 
 }

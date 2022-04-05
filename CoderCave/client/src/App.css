@@ -1,38 +1,42 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400&display=swap');
+
+.logo {
+  margin-top: 15rem;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 5rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.blue {
+  color: #4285f4;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.red {
+  color: #ea4335;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.yellow {
+  color: #fbbc05;
 }
 
-.App-link {
-  color: #61dafb;
+.green {
+  color: #34a853;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main-search.form-control {
+  border-radius: 30px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.or-separator {
+  margin: 10px 0;
+}
+
+.or-separator-line {
+  width: 100px;
+  background-color: #d1d6dc;
+  height: 1px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 10px;
 }
