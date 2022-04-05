@@ -2,7 +2,7 @@
 GO
 
 SET IDENTITY_INSERT [User] ON
-INSERT INTO [User] ([Id], [Email], [DisplayName], [FirstName], [LastName], [ImageURL], [Bio]) VALUES 
+INSERT INTO [User] ([Id], [FirebaseUserId], [Email], [DisplayName], [FirstName], [LastName], [ImageURL], [Bio]) VALUES 
 (1, 'wiigiZFQwkQebRm2EdMA2lF653u1', 'admin@mail.com', 'admin', 'Adam', 'Inistrator', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
 (2, 'TolVGTUp0QQOgGRIaYnKlVxScpX2', 'author@mail.com', 'author', 'Arthur', 'Whinington', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
 (3, 'CqPziif2RWMNigWA0pxpxXVTXrz2', 'bob@mail.com', 'justbob', 'Bob', 'Jones', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
