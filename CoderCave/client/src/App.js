@@ -3,6 +3,8 @@ import './App.css';
 import { Spinner } from 'reactstrap';
 import { onLoginStatusChange } from './managers/authManager';
 import ApplicationViews from './components/ApplicationViews';
+import { TagProvider } from './providers/TagProvider';
+import { InquireProvider } from './providers/InquireProvider';
 
 function App() {
   
@@ -17,10 +19,12 @@ function App() {
   }
 
   return (
-    <>
-      {/* <Header /> */}
-      <ApplicationViews isLoggedIn={isLoggedIn} />
-    </>
+    <TagProvider>
+      <InquireProvider>
+        {/* <Header /> */}
+        <ApplicationViews isLoggedIn={isLoggedIn} />
+      </InquireProvider>
+    </TagProvider>
   );
 
 }
