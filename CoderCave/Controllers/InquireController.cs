@@ -20,10 +20,7 @@ namespace CoderCave.Controllers
         public IActionResult GetInquiriesByTagId(int id)
         {
             var inquiries = _inquireRepository.GetInquiriesByTag(id);
-            if (inquiries == null)
-            {
-                return NotFound();
-            }
+            
             return Ok(inquiries);
         }
 

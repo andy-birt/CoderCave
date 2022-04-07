@@ -1,6 +1,8 @@
 import { useContext, useEffect } from "react";
 import { useParams } from "react-router";
+import { Container } from "reactstrap";
 import { InquireContext } from "../../providers/InquireProvider";
+import Inquire from "./Inquire";
 
 
 const InquireList = ({ isLoggedIn }) => {
@@ -12,12 +14,13 @@ const InquireList = ({ isLoggedIn }) => {
     getAllByTagId(id);
   }, [id]);
   
-  return inquiries.map(i => 
-    <div key={i.id}>
-      <div>{i.title}</div>
-      <div>{i.content}</div>
-    </div>
-  );
+  return ( 
+  <Container>
+  {  
+    inquiries.map(i => <Inquire key={i.id} inquire={i} />)
+  }
+  </Container>
+  )
 };
 
 export default InquireList;
