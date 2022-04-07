@@ -38,5 +38,38 @@ namespace CoderCave.Repositories
                 }
             }
         }
+
+        public Tag GetTag(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT Id, Name, Description
+                            FROM Tag
+                        WHERE Id = @id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    Tag tag = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        tag = new Tag()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Description = DbUtils.GetString(reader, "Description")
+                        };
+                    }
+                    reader.Close();
+                    return tag;
+                }
+            }
+        }
     }
 }

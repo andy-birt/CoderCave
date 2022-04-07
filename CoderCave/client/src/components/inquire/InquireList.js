@@ -1,26 +1,12 @@
-import { useContext, useEffect } from "react";
-import { useParams } from "react-router";
-import { Container } from "reactstrap";
+import { useContext } from "react";
 import { InquireContext } from "../../providers/InquireProvider";
 import Inquire from "./Inquire";
 
 
 const InquireList = ({ isLoggedIn }) => {
-  const { inquiries, getAllByTagId } = useContext(InquireContext);
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    getAllByTagId(id);
-  }, [id]);
+  const { inquiries } = useContext(InquireContext);
   
-  return ( 
-  <Container>
-  {  
-    inquiries.map(i => <Inquire key={i.id} inquire={i} />)
-  }
-  </Container>
-  )
+  return inquiries.map(i => <Inquire key={i.id} inquire={i} />)
 };
 
 export default InquireList;

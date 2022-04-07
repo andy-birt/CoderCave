@@ -5,7 +5,7 @@ const Tag = ({ tag }) => {
   return (
     <Card>
       <CardBody>
-        <CardTitle><Link to={`/tag/questions/${tag.id}`}>{tag.name}</Link></CardTitle>
+        <CardTitle><Link to={`/tag/details/${tag.id}`}>{tag.name}</Link></CardTitle>
         <CardText>{tag.description}</CardText>
       </CardBody>
     </Card>

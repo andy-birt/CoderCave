@@ -21,5 +21,16 @@ namespace CoderCave.Controllers
         {
             return Ok(_tagRepository.GetAllTags());
         }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var tag = _tagRepository.GetTag(id);
+            if (tag == null)
+            {
+                return NotFound();
+            }
+            return Ok(tag);
+        }
     }
 }

@@ -4,11 +4,14 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import InquireList from "./inquire/InquireList";
 import Main from "./main/Main";
+import TagDetails from "./tag/TagDetails";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
     <Routes>
       <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
+
+      <Route path="/tag/details/:id" element={<TagDetails />} />
 
       <Route path="/tag/questions/:id" element={<InquireList isLoggedIn={isLoggedIn} />} />
 
