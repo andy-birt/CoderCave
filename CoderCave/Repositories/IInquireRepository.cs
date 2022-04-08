@@ -5,6 +5,7 @@ namespace CoderCave.Repositories
 {
     public interface IInquireRepository
     {
+        Inquire GetInquirie(int id);
         List<Inquire> GetInquiriesByTag(int tagId);
     }
 }
