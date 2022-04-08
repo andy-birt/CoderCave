@@ -16,6 +16,17 @@ namespace CoderCave.Controllers
             _inquireRepository = inquireRepository;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var inquire = _inquireRepository.GetInquirie(id);
+            if (inquire == null)
+            {
+                return NotFound();
+            }
+            return Ok(inquire);
+        }
+
         [HttpGet("getbytag/{id}")]
         public IActionResult GetInquiriesByTagId(int id)
         {
