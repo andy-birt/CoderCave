@@ -14,25 +14,18 @@ namespace CoderCave.Models
 
         [Required]
         public string Title { get; set; }
-
         public string Content { get; set; }
-
         public string ContentSummary { get; set; }
-
         public DateTime CreatedAt { get; set; }
-
         public User User { get; set; }
-
+        public string AuthorName { get; set; }
+        public string AuthorImageURL { get; set; }
         public List<Answer> Answers { get; set; } = new List<Answer>();
-
         public int AnswersCount { get; set; }
-
-        public List<Comment> Comments { get; set; } = new List<Comment>();
-
+        public List<InquireComment> Comments { get; set; } = new List<InquireComment>();
         public int CommentsCount { get; set; }
-
         public List<Tag> Tags { get; set; } = new List<Tag>();
-
         public int VotesCount { get; set; }
+        public int Score { get; set; }
     }
 }
