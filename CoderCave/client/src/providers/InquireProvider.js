@@ -15,7 +15,7 @@ export const InquireProvider = (props) => {
   };
 
   const getInquire = (id) => {
-    return fetch(`/api/inquire/getbytag/${id}`)
+    return fetch(`/api/inquire/${id}`)
       .then(r => r.json())
       .then(setInquire);
   };
