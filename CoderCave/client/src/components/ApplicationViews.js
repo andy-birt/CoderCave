@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { Container } from "reactstrap";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import InquireDetails from "./inquire/InquireDetails";
@@ -12,7 +13,11 @@ export default function ApplicationViews({ isLoggedIn }) {
     <Routes>
       <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
 
-      <Route path="/inquire/details/:id" element={<InquireDetails />} />
+      <Route path="/inquire/details/:id" element={
+        <Container>
+          <InquireDetails />
+        </Container>
+      } />
 
       <Route path="/tag/details/:id" element={<TagDetails />} />
 
