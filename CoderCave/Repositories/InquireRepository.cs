@@ -20,7 +20,7 @@ namespace CoderCave.Repositories
                     cmd.CommandText = @"
                         SELECT t.Id AS TagId, t.[Name] AS TagName, CAST(t.Description AS NVARCHAR(MAX)) AS TagDescription,
                                 i.Id AS InquireId, i.UserId AS InquireUserId, i.Title, CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate,
-                                iu.DisplayName AS InquireUserDisplayName,
+                                iu.DisplayName AS InquireUserDisplayName, iu.ImageURL AS InquireUserImageURL,
                                 COUNT(DISTINCT vi.Id) AS InquireVotesCount,
                                 COUNT(DISTINCT ic.Id) AS InquireCommentsCount,
                                 COUNT(DISTINCT a.Id) AS AnswersCount
@@ -32,7 +32,7 @@ namespace CoderCave.Repositories
                             LEFT JOIN [User] iu ON iu.Id = i.UserId 
 	                        LEFT JOIN Answer a ON i.Id = a.InquireId
                         WHERE t.Id = @TagId
-                        GROUP BY i.Id, i.UserId, i.Title, i.CreatedAt, iu.DisplayName, vi.InquireId, a.InquireId, ic.InquireId, t.Id, t.[Name], CAST(t.Description AS NVARCHAR(MAX)), CAST(i.Content AS NVARCHAR(255))
+                        GROUP BY i.Id, i.UserId, i.Title, i.CreatedAt, iu.DisplayName, iu.ImageURL, vi.InquireId, a.InquireId, ic.InquireId, t.Id, t.[Name], CAST(t.Description AS NVARCHAR(MAX)), CAST(i.Content AS NVARCHAR(255))
                     ";
 
                     DbUtils.AddParameter(cmd, "@TagId", tagId);
@@ -125,7 +125,7 @@ namespace CoderCave.Repositories
                                     GROUP BY AnswerId
                                 ) vac ON a.Id = vac.AnswerId
                         WHERE i.Id = @Id
-                        ORDER BY AnswerScore, a.IsSelected DESC
+                        ORDER BY a.IsSelected DESC, AnswerScore DESC
                     ";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
