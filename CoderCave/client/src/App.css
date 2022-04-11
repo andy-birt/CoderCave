@@ -90,3 +90,7 @@
   color: #198754;
   font-size: 1.5rem;
 }
+
+.details-tag-list {
+  flex-grow: 1;
+}
