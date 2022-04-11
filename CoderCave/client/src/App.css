@@ -24,8 +24,7 @@
 
 .main-search.form-control {
   border-radius: 30px;
-  max-width: 600px;
-  margin: auto;
+  padding: .375rem 1.25rem;
 }
 
 .or-separator {
@@ -93,4 +92,16 @@
 
 .details-tag-list {
   flex-grow: 1;
+}
+
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: auto;
+}
+
+.search-icon-main {
+  position: absolute;
+  top: 7px;
+  right: 23px;
 }
