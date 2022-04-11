@@ -1,12 +1,15 @@
-import { Card } from "reactstrap";
+import { Link } from "react-router-dom";
+import { Card, CardBody } from "reactstrap";
 
 const CommentList = ({ comments }) => {
  
   return comments?.map(c => {
     return (
       <Card key={c.id}>
-        <span><small>{c.content} </small> </span>
-        <div className="d-flex justify-content-end align-items-center comment-author-info"><img src={c.authorImageURL} alt="" className="comment-avatar" /> - {c.authorName} {new Date(c.createdAt).toLocaleString()}</div>
+        <CardBody>
+          <div className="mr-2"><small>{c.content} </small> </div>
+          <div className="d-flex justify-content-end align-items-center comment-author-info"><Link to={`/user/${c.userId}`}><img src={c.authorImageURL} alt="" className="comment-avatar" /> - {c.authorName}</Link> {new Date(c.createdAt).toLocaleString()}</div>
+        </CardBody>
       </Card>
     );
   });
