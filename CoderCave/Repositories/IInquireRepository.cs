@@ -7,5 +7,6 @@ namespace CoderCave.Repositories
     {
         Inquire GetInquirie(int id);
         List<Inquire> GetInquiriesByTag(int tagId);
+        Result Search(string q, int p, int l);
     }
 }
