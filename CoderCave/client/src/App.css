@@ -53,7 +53,7 @@
 }
 
 .tag-list {
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .tag-list .card {
