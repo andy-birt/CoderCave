@@ -35,5 +35,11 @@ namespace CoderCave.Controllers
             return Ok(inquiries);
         }
 
+        [HttpGet("search")]
+        public IActionResult Search(string q, int page, int limit = 10)
+        {
+            return Ok(_inquireRepository.Search(q, page, limit));
+        }
+
     }
 }
