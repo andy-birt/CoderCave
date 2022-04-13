@@ -1,12 +1,25 @@
 import React, { useContext, useEffect } from "react";
-import { Container, Input, InputGroup, InputGroupText } from "reactstrap";
+import { Container, Form, Input } from "reactstrap";
 import { TagContext } from "../../providers/TagProvider";
 import Tag from "../tag/Tag";
 import H1Logo from "../logos/H1Logo";
+import { SearchContext } from "../../providers/SearchProvider";
+import { useNavigate } from "react-router";
 
 const Main = ({ isLoggedIn }) => {
 
   const { tags, getAllTags } = useContext(TagContext);
+
+  const { setSearchTerm } = useContext(SearchContext);
+
+  
+
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate('/search/1');
+  };
 
   useEffect(() => {
     getAllTags();
@@ -15,10 +28,12 @@ const Main = ({ isLoggedIn }) => {
   return (
     <Container>
       <H1Logo />
-      <div className="search-container">
-        <span className="search-icon-main"><i className="bi bi-search"></i></span>
-        <Input className="main-search" placeholder="Start your search here..." />
-      </div>
+      <Form onSubmit={handleSearch} >
+        <div className="search-container">
+          <span className="search-icon-main"><i className="bi bi-search"></i></span>
+          <Input type="search" onChange={e => setSearchTerm(e.target.value)} className="main-search" placeholder="Start your search here..." />
+        </div>
+      </Form>
       <div className="or-separator text-center">
         <div className="or-separator-line"></div>
         OR
