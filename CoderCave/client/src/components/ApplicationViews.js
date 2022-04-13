@@ -6,6 +6,7 @@ import Register from "./auth/Register";
 import InquireDetails from "./inquire/InquireDetails";
 import InquireList from "./inquire/InquireList";
 import Main from "./main/Main";
+import Result from "./result/Result";
 import TagDetails from "./tag/TagDetails";
 
 export default function ApplicationViews({ isLoggedIn }) {
@@ -22,6 +23,8 @@ export default function ApplicationViews({ isLoggedIn }) {
       <Route path="/tag/details/:id" element={<TagDetails />} />
 
       <Route path="/tag/questions/:id" element={<InquireList isLoggedIn={isLoggedIn} />} />
+
+      <Route path="/search/:page" element={<Result />} />
 
       <Route path="/login" element={<Login />} />
 
