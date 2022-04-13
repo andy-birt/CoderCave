@@ -5,6 +5,7 @@ import { onLoginStatusChange } from './managers/authManager';
 import ApplicationViews from './components/ApplicationViews';
 import { TagProvider } from './providers/TagProvider';
 import { InquireProvider } from './providers/InquireProvider';
+import { SearchProvider } from './providers/SearchProvider';
 
 function App() {
   
@@ -21,8 +22,10 @@ function App() {
   return (
     <TagProvider>
       <InquireProvider>
-        {/* <Header /> */}
-        <ApplicationViews isLoggedIn={isLoggedIn} />
+        <SearchProvider>
+          {/* <Header /> */}
+          <ApplicationViews isLoggedIn={isLoggedIn} />
+        </SearchProvider>
       </InquireProvider>
     </TagProvider>
   );
