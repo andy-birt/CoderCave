@@ -27,6 +27,12 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Container>
       } />
 
+      <Route path="/inquire/edit/:id" element={
+        <Container>
+          <InquireForm isLoggedIn={isLoggedIn}/>
+        </Container>
+      } />
+
       <Route path="/tag/details/:id" element={<TagDetails />} />
 
       <Route path="/tag/questions/:id" element={<InquireList isLoggedIn={isLoggedIn} />} />
