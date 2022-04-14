@@ -45,6 +45,7 @@ namespace CoderCave.Controllers
         [HttpPost]
         public IActionResult Post(Inquire inquire)
         {
+            inquire.IsArchived = false;
             inquire.CreatedAt = DateTime.Now;
             _inquireRepository.Add(inquire);
             return CreatedAtAction("Get", new { id = inquire.Id }, inquire);
