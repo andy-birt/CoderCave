@@ -4,6 +4,7 @@ import { Container } from "reactstrap";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import InquireDetails from "./inquire/InquireDetails";
+import InquireForm from "./inquire/InquireForm";
 import InquireList from "./inquire/InquireList";
 import Main from "./main/Main";
 import Result from "./result/Result";
@@ -17,6 +18,12 @@ export default function ApplicationViews({ isLoggedIn }) {
       <Route path="/inquire/details/:id" element={
         <Container>
           <InquireDetails />
+        </Container>
+      } />
+
+      <Route path="/inquire/new" element={
+        <Container>
+          <InquireForm isLoggedIn={isLoggedIn}/>
         </Container>
       } />
 
