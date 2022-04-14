@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { useParams } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import { InquireContext } from "../../providers/InquireProvider";
 import Score from "../misc/Score";
 import CommentList from "../comment/CommentList";
@@ -7,10 +7,17 @@ import { Button } from "reactstrap";
 import AnswerList from "../answer/AnswerList";
 import TagList from "../tag/TagList";
 import { Link } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 const InquireDetails = () => {
 
+  const loggedInUserFBID = getAuth().currentUser.uid;
+
+  const [currentUser, setCurrentUser] = useState({});
+
   const { inquire, getInquire } = useContext(InquireContext);
+
+  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -18,10 +25,25 @@ const InquireDetails = () => {
     getInquire(id);
   }, [id]);
 
+  useEffect(() => {
+    fetch(`/api/user/${loggedInUserFBID}`)
+      .then(r => r.json())
+      .then(setCurrentUser);
+  }, [currentUser.id]);
+
   return (
     <>
       <h2 className="inquire-title">{inquire.title}</h2>
       <Button className="mb-3">Add Answer</Button>
+      {' '}
+      {
+        (inquire.userId === currentUser.id || currentUser.userType?.type === "Admin") &&
+        <>
+          <Button onClick={() => navigate(`/inquire/edit/${id}`)} className="mb-3">Edit Question</Button>
+          {' '}
+          <Button className="mb-3">Archive Question</Button>
+        </>
+      }
       <div className="row">
         <div className="col-1">
           <Score score={inquire.score} />
