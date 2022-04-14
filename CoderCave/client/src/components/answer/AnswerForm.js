@@ -5,13 +5,13 @@ import { Button, Container, Form, FormGroup, FormText, Input, Label } from "reac
 import { AnswerContext } from "../../providers/AnswerProvider";
 import { InquireContext } from "../../providers/InquireProvider";
 
-const AnswerForm = () => {
+const AnswerForm = ({ isLoggedIn }) => {
 
   const currentUser = getAuth().currentUser;
 
   const { inquire, getInquire } = useContext(InquireContext);
 
-  const { saveAnswer } = useContext(AnswerContext);
+  const { getAnswerById, saveAnswer, editAnswer } = useContext(AnswerContext);
 
   const [ answer, setAnswer ] = useState({ inquireId: inquire.id });
 
@@ -29,23 +29,37 @@ const AnswerForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveAnswer(answer)
-      .then(() => navigate(`/inquire/details/${answer.inquireId}`));
+    if (!answer.id) {
+      saveAnswer(answer)
+        .then(() => navigate(`/inquire/details/${answer.inquireId}`));
+    } else {
+      editAnswer(answer)
+        .then(() => navigate(`/inquire/details/${answer.inquireId}`));
+    }
   };
 
   useEffect(() => {
     if (!inquire.id) {
-      getInquire(id);
+      getInquire(inquire.id);
     }
-    fetch(`/api/user/${currentUser.uid}`)
-      .then(r => r.json())
-      .then((user) => setAnswer({...answer, userId: user.id}));
+
+    if (id) {
+      getAnswerById(id)
+      .then(setAnswer);
+    } else if (isLoggedIn) {
+      fetch(`/api/user/${currentUser.uid}`)
+        .then(r => r.json())
+        .then((user) => setAnswer({...answer, userId: user.id}));
+    } else {
+      navigate(-1);
+    }
   }, [id]);
 
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <p>Question</p>
+        <Button color="dark" className="mt-3 mb-3" outline onClick={() => navigate(-1)} >Back</Button>
+        <h3>{inquire.title}</h3>
         <FormText>{inquire.content}</FormText>
         <p></p>
         <FormGroup>
