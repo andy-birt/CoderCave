@@ -3,9 +3,10 @@ import CommentList from "../comment/CommentList";
 import { Button } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AnswerContext } from "../../providers/AnswerProvider";
 
-const AnswerList = ({ answers, isLoggedIn }) => {
+const AnswerList = ({ answers, isLoggedIn, getInquire }) => {
 
   let loggedInUserFBID = null;
    
@@ -13,10 +14,15 @@ const AnswerList = ({ answers, isLoggedIn }) => {
 
   const [currentUser, setCurrentUser] = useState({});
 
+  const { deleteAnswer } = useContext(AnswerContext);
+
   const navigate = useNavigate();
 
-  const deleteAnswer = () => {
-
+  const handleDeleteAnswer = (id, inquireId) => {
+    if (window.confirm('Are you sure you want to delete this answer?')) {
+      deleteAnswer(id)
+        .then(() => getInquire(inquireId));
+    }
   };
 
   useEffect(() => {
@@ -40,9 +46,8 @@ const AnswerList = ({ answers, isLoggedIn }) => {
             {
               (isLoggedIn && a.userId === currentUser.id ) &&
               <>
-                <Button onClick={() => navigate(`/inquire/answer/edit/${a.id}`)} className="mb-3">Edit Answer</Button>
-                {' '}
-                <Button onClick={() => deleteAnswer()} className="mb-3">Delete Answer</Button>
+                <Button onClick={() => navigate(`/inquire/answer/edit/${a.id}`)} className="mb-3" style={{marginRight: ".25rem"}}>Edit Answer</Button>
+                <Button onClick={() => handleDeleteAnswer(a.id, a.inquireId)} className="mb-3">Delete Answer</Button>
               </>
             }
               <Link to={`/user/${a.userId}`}>
