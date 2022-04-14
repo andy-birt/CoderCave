@@ -27,5 +27,6 @@ namespace CoderCave.Models
         public List<Tag> Tags { get; set; } = new List<Tag>();
         public int VotesCount { get; set; }
         public int Score { get; set; }
+        public bool IsArchived { get; set; }
     }
 }
