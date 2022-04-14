@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Container, Form, Input } from "reactstrap";
+import { Button, Container, Form, Input } from "reactstrap";
 import { TagContext } from "../../providers/TagProvider";
 import Tag from "../tag/Tag";
 import H1Logo from "../logos/H1Logo";
@@ -21,12 +21,21 @@ const Main = ({ isLoggedIn }) => {
     navigate('/search/1');
   };
 
+  const handleQuestionButtonClick = (e) => {
+    if (isLoggedIn) {
+      navigate("/inquire/new");
+    } else {
+      alert("You must be logged in to ask a question");
+    }
+  };
+
   useEffect(() => {
     getAllTags();
   }, []);
 
   return (
     <Container>
+      <Button onClick={handleQuestionButtonClick} >Ask a Question</Button>
       <H1Logo />
       <Form onSubmit={handleSearch} >
         <div className="search-container">
