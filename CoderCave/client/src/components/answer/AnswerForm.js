@@ -43,7 +43,7 @@ const AnswerForm = ({ isLoggedIn }) => {
       getInquire(inquire.id);
     }
 
-    if (id) {
+    if (id === answer.id) {
       getAnswerById(id)
       .then(setAnswer);
     } else if (isLoggedIn) {
