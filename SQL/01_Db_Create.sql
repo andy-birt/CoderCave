@@ -43,7 +43,8 @@ CREATE TABLE [Inquire] (
   [UserId] int NOT NULL,
   [Title] nvarchar(255) NOT NULL,
   [Content] text NOT NULL,
-  [CreatedAt] datetime NOT NULL
+  [CreatedAt] datetime NOT NULL,
+  [IsArchived] bit NOT NULL
 )
 GO
 
