@@ -29,7 +29,7 @@ namespace CoderCave.Controllers
             answer.IsSelected = false;
             answer.CreatedAt = DateTime.Now;
             _answerRepository.Add(answer);
-            return CreatedAtAction(nameof(Answer), new { id = answer.Id }, answer);
+            return NoContent();
         }
 
         [HttpPut("{id}")]
@@ -40,6 +40,13 @@ namespace CoderCave.Controllers
                 return BadRequest();
             }
             _answerRepository.Update(answer);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _answerRepository.Delete(id);
             return NoContent();
         }
     }
