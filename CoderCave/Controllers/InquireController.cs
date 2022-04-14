@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CoderCave.Models;
 using CoderCave.Repositories;
+using System;
 
 namespace CoderCave.Controllers
 {
@@ -39,6 +40,14 @@ namespace CoderCave.Controllers
         public IActionResult Search(string q, int page = 1, int limit = 10)
         {
             return Ok(_inquireRepository.Search(q, page, limit));
+        }
+
+        [HttpPost]
+        public IActionResult Post(Inquire inquire)
+        {
+            inquire.CreatedAt = DateTime.Now;
+            _inquireRepository.Add(inquire);
+            return CreatedAtAction("Get", new { id = inquire.Id }, inquire);
         }
 
     }
