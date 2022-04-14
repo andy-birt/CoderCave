@@ -9,6 +9,7 @@ import InquireList from "./inquire/InquireList";
 import Main from "./main/Main";
 import Result from "./result/Result";
 import TagDetails from "./tag/TagDetails";
+import AnswerForm from "./answer/AnswerForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -32,6 +33,8 @@ export default function ApplicationViews({ isLoggedIn }) {
           <InquireForm isLoggedIn={isLoggedIn}/>
         </Container>
       } />
+
+      <Route path="/inquire/answer/:id" element={<AnswerForm /> } />
 
       <Route path="/tag/details/:id" element={<TagDetails />} />
 
