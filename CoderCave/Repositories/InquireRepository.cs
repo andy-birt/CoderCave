@@ -20,7 +20,7 @@ namespace CoderCave.Repositories
 
                     cmd.CommandText = $@"
                         SELECT i.Id AS InquireId, i.UserId AS InquireUserId, i.Title, i.Content AS InquireContent, 
-                               CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate
+                               CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate,
                                iu.DisplayName AS InquireUserDisplayName
                         FROM Inquire i
                             LEFT JOIN [User] iu ON i.UserId = iu.Id
