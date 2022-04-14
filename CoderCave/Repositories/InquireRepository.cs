@@ -200,6 +200,57 @@ namespace CoderCave.Repositories
             }
         }
 
+        public void Add(Inquire inquire)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Inquire ([Title], [Content], [UserId], [CreatedAt])
+                        OUTPUT INSERTED.ID
+                        VALUES (@Title, @Content, @UserId, @CreatedAt)
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Title", inquire.Title);
+                    DbUtils.AddParameter(cmd, "@Content", inquire.Content);
+                    DbUtils.AddParameter(cmd, "@UserId", inquire.UserId);
+                    DbUtils.AddParameter(cmd, "@CreatedAt", inquire.CreatedAt);
+
+                    inquire.Id = (int)cmd.ExecuteScalar();
+
+                    if (inquire.Tags.Count > 0)
+                    {
+                        cmd.CommandText = @"
+                            INSERT INTO InquireTag ([TagId], [InquireId])
+                            VALUES 
+                        ";
+
+                        for (var i = 0; i < inquire.Tags.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                cmd.CommandText += $@"
+                                    (@TagId{i}, @InquireId)
+                                ";                       
+                            }
+                            else
+                            {
+                                cmd.CommandText += $@"
+                                    , (@TagId{i}, @InquireId)
+                                ";
+                            }
+                            DbUtils.AddParameter(cmd, $"@TagId{i}", inquire.Tags[i].Id);
+                        }
+                        DbUtils.AddParameter(cmd, "@InquireId", inquire.Id);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
         private Inquire NewSearchResultFromReader(SqlDataReader r)
         {
             return new Inquire()
