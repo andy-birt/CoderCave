@@ -30,10 +30,20 @@ export const InquireProvider = (props) => {
     }).then(r => r.json());
   };
 
+  const editInquire = (inquire) => {
+    return fetch(`/api/inquire/${inquire.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(inquire)
+    });
+  };
+
   return (
     <InquireContext.Provider value={{
       inquiries, getAllByTagId,
-      inquire, getInquire, saveInquire
+      inquire, getInquire, saveInquire, editInquire
     }} >
       {props.children}
     </InquireContext.Provider>
