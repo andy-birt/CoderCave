@@ -6,7 +6,7 @@ import { InquireContext } from "../../providers/InquireProvider";
 import { TagContext } from "../../providers/TagProvider";
 
 
-const InquireForm = () => {
+const InquireForm = ({ isLoggedIn }) => {
 
   const currentUser = getAuth().currentUser;
 
@@ -49,30 +49,34 @@ const InquireForm = () => {
   };
 
   useEffect(() => {
-    getAllTags().then(() => {
-      if (id) {
-        // Normally I would elect to just use getting the inquire by it's id as it is in the provider
-        // in this case I'm setting the tags separately since I was having issues setting the default value
-        // in the multi select
-        return fetch(`/api/inquire/${id}`)
-          .then(r => r.json())
-          .then((i) => {
-            setInquire(i);
-            setInquireTags(i.tags.map(t =>  t.id));
-          });
-      } else {
-        // Here I need to go an extra step to get the current user's id since locally were storing firebaseId
-        // I use that to fetch the user from db and then set the inquire userId
-        return fetch(`/api/user/${currentUser.uid}`)
-          .then(r => r.json())
-          .then((user) => setInquire({...inquire, userId: user.id}));
-      }
-    });
+    if (isLoggedIn) {
+      getAllTags().then(() => {
+        if (id) {
+          // Normally I would elect to just use getting the inquire by it's id as it is in the provider
+          // in this case I'm setting the tags separately since I was having issues setting the default value
+          // in the multi select
+          return fetch(`/api/inquire/${id}`)
+            .then(r => r.json())
+            .then((i) => {
+              setInquire(i);
+              setInquireTags(i.tags.map(t =>  t.id));
+            });
+        } else {
+          // Here I need to go an extra step to get the current user's id since locally were storing firebaseId
+          // I use that to fetch the user from db and then set the inquire userId
+          return fetch(`/api/user/${currentUser.uid}`)
+            .then(r => r.json())
+            .then((user) => setInquire({...inquire, userId: user.id}));
+        }
+      });
+    } else {
+      navigate(-1);
+    }
   }, []);
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Input type="hidden" defaultValue={inquire.id} />
+      <Button color="dark" className="mt-3 mb-3" outline onClick={() => navigate(-1)} >Back</Button>
       <FormGroup>
         <Label>Title</Label>
         <Input onChange={handleChange} defaultValue={inquire.title} id="title" placeholder="Enter question here" />
