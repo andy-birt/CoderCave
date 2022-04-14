@@ -251,6 +251,57 @@ namespace CoderCave.Repositories
             }
         }
 
+        public void Update(Inquire inquire)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        DELETE FROM InquireTag WHERE InquireId = @Id
+
+                        UPDATE Inquire
+                        SET Title = @Title
+                            Content = @Content
+                        WHERE Id = @Id
+                    ";
+
+                    if (inquire.Tags.Count > 0)
+                    {
+                        cmd.CommandText += @"
+                            INSERT INTO InquireTag ([TagId], [InquireId])
+                            VALUES
+                        ";
+
+                        for (var i = 0; i < inquire.Tags.Count; i++)
+                        {
+                            if (i == 0)
+                            {
+                                cmd.CommandText += $@"
+                                    (@TagId{i}, @Id)
+                                ";
+                            }
+                            else
+                            {
+                                cmd.CommandText += $@"
+                                    , (@TagId{i}, @Id)
+                                ";
+                            }
+                            DbUtils.AddParameter(cmd, $"@TagId{i}", inquire.Tags[i].Id);
+                        }
+
+                    }
+                    DbUtils.AddParameter(cmd, "@Id", inquire.Id);
+                    DbUtils.AddParameter(cmd, "@Title", inquire.Title);
+                    DbUtils.AddParameter(cmd, "@Content", inquire.Content);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+
         private Inquire NewSearchResultFromReader(SqlDataReader r)
         {
             return new Inquire()
