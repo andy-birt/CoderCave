@@ -17,11 +17,18 @@ const InquireDetails = ({ isLoggedIn }) => {
 
   const [currentUser, setCurrentUser] = useState({});
 
-  const { inquire, getInquire } = useContext(InquireContext);
+  const { inquire, getInquire, editInquire } = useContext(InquireContext);
 
   const navigate = useNavigate();
 
   const { id } = useParams();
+
+  const archiveInquire = () => {
+    if (window.confirm("Do you wish to archive this question?")) {
+      return editInquire({ ...inquire, isArchived: true })
+        .then(() => navigate('/'));
+    }
+  };
 
   useEffect(() => {
     getInquire(id);
@@ -46,7 +53,7 @@ const InquireDetails = ({ isLoggedIn }) => {
         <>
           <Button onClick={() => navigate(`/inquire/edit/${id}`)} className="mb-3">Edit Question</Button>
           {' '}
-          <Button className="mb-3">Archive Question</Button>
+          <Button onClick={() => archiveInquire()} className="mb-3">Archive Question</Button>
         </>
       }
       <div className="row">
