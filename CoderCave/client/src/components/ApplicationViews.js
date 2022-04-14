@@ -34,7 +34,9 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Container>
       } />
 
-      <Route path="/inquire/answer/:id" element={<AnswerForm /> } />
+      <Route path="/inquire/answer/:id" element={<AnswerForm isLoggedIn={isLoggedIn} /> } />
+
+      <Route path="/inquire/answer/edit/:id" element={<AnswerForm isLoggedIn={isLoggedIn} /> } />
 
       <Route path="/tag/details/:id" element={<TagDetails />} />
 
