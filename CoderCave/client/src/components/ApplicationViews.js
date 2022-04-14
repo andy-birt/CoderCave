@@ -17,7 +17,7 @@ export default function ApplicationViews({ isLoggedIn }) {
 
       <Route path="/inquire/details/:id" element={
         <Container>
-          <InquireDetails />
+          <InquireDetails isLoggedIn={isLoggedIn} />
         </Container>
       } />
 
