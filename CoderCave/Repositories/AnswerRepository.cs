@@ -10,6 +10,44 @@ namespace CoderCave.Repositories
     {
         public AnswerRepository(IConfiguration configuration) : base(configuration) { }
 
+
+        public Answer GetAnswer(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT a.Id, a.UserId, a.InquireId, a.Content, a.IsSelected, a.CreatedAt
+                        FROM Answer a
+                        WHERE a.Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    Answer answer = null;
+
+                    if (reader.Read())
+                    {
+                        answer = new Answer()
+                        {
+                            Id = id,
+                            UserId = DbUtils.GetInt(reader, "UserId"),
+                            InquireId = DbUtils.GetInt(reader, "InquireId"),
+                            Content = DbUtils.GetString(reader, "Content"),
+                            IsSelected = DbUtils.GetBool(reader, "IsSelected"),
+                            CreatedAt = DbUtils.GetDateTime(reader, "CreatedAt")
+                        };
+                    }
+
+                    reader.Close();
+                    return answer;
+                }
+            }
+        }
         public void Add(Answer answer)
         {
             using (var conn = Connection)
