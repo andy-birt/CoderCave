@@ -46,7 +46,7 @@ const InquireDetails = ({ isLoggedIn }) => {
     <>
       <Button color="dark" className="mt-3" outline onClick={() => navigate(-1)} >Back</Button>
       <h2 className="inquire-title">{inquire.title}</h2>
-      <Button className="mb-3">Add Answer</Button>
+      <Button onClick={() => navigate(`/inquire/answer/${inquire}`)}  className="mb-3">Add Answer</Button>
       {' '}
       {
         (isLoggedIn && (inquire.userId === currentUser.id || currentUser.userType?.type === "Admin")) &&
