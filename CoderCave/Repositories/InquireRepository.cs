@@ -20,11 +20,11 @@ namespace CoderCave.Repositories
 
                     cmd.CommandText = $@"
                         SELECT i.Id AS InquireId, i.UserId AS InquireUserId, i.Title, i.Content AS InquireContent, 
-                               CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate,
+                               CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate
                                iu.DisplayName AS InquireUserDisplayName
                         FROM Inquire i
                             LEFT JOIN [User] iu ON i.UserId = iu.Id
-                        WHERE i.Title LIKE @q OR i.Content LIKE @q
+                        WHERE i.Title LIKE @q OR i.Content LIKE @q AND i.IsArchived = 0
                         ORDER BY i.CreatedAt DESC
                             OFFSET {(p * l - l)} ROWS
                             FETCH NEXT {l} ROWS ONLY
@@ -55,7 +55,7 @@ namespace CoderCave.Repositories
                     cmd.CommandText = $@"
                         SELECT COUNT(*) AS ResultsCount 
                             FROM Inquire i
-                        WHERE i.Title LIKE @q1 OR i.Content LIKE @q1
+                        WHERE i.Title LIKE @q1 OR i.Content LIKE @q1 AND i.IsArchived = 0
                     ";
 
                     DbUtils.AddParameter(cmd, "@q1", $"%{q}%");
@@ -101,8 +101,9 @@ namespace CoderCave.Repositories
                             LEFT JOIN InquireComment ic ON i.Id = ic.InquireId
                             LEFT JOIN [User] iu ON iu.Id = i.UserId 
 	                        LEFT JOIN Answer a ON i.Id = a.InquireId
-                        WHERE t.Id = @TagId
+                        WHERE t.Id = @TagId AND i.IsArchived = 0
                         GROUP BY i.Id, i.UserId, i.Title, i.CreatedAt, iu.DisplayName, iu.ImageURL, vi.InquireId, a.InquireId, ic.InquireId, t.Id, t.[Name], CAST(t.Description AS NVARCHAR(MAX)), CAST(i.Content AS NVARCHAR(255))
+                        ORDER BY i.CreatedAt DESC
                     ";
 
                     DbUtils.AddParameter(cmd, "@TagId", tagId);
@@ -134,7 +135,7 @@ namespace CoderCave.Repositories
                 {
                     cmd.CommandText = @$"
                         {BeefySelect()}
-                        WHERE i.Id = @Id
+                        WHERE i.Id = @Id AND i.IsArchived = 0
                         ORDER BY a.IsSelected DESC, AnswerScore DESC
                     ";
 
@@ -208,15 +209,16 @@ namespace CoderCave.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO Inquire ([Title], [Content], [UserId], [CreatedAt])
+                        INSERT INTO Inquire ([Title], [Content], [UserId], [CreatedAt], [IsArchived])
                         OUTPUT INSERTED.ID
-                        VALUES (@Title, @Content, @UserId, @CreatedAt)
+                        VALUES (@Title, @Content, @UserId, @CreatedAt, @IsArchived)
                     ";
 
                     DbUtils.AddParameter(cmd, "@Title", inquire.Title);
                     DbUtils.AddParameter(cmd, "@Content", inquire.Content);
                     DbUtils.AddParameter(cmd, "@UserId", inquire.UserId);
                     DbUtils.AddParameter(cmd, "@CreatedAt", inquire.CreatedAt);
+                    DbUtils.AddParameter(cmd, "@IsArchived", inquire.IsArchived);
 
                     inquire.Id = (int)cmd.ExecuteScalar();
 
@@ -263,7 +265,8 @@ namespace CoderCave.Repositories
 
                         UPDATE Inquire
                         SET Title = @Title,
-                            Content = @Content
+                            Content = @Content,
+                            IsArchived = @IsArchived
                         WHERE Id = @Id
                     ";
 
@@ -295,6 +298,7 @@ namespace CoderCave.Repositories
                     DbUtils.AddParameter(cmd, "@Id", inquire.Id);
                     DbUtils.AddParameter(cmd, "@Title", inquire.Title);
                     DbUtils.AddParameter(cmd, "@Content", inquire.Content);
+                    DbUtils.AddParameter(cmd, "@IsArchived", inquire.IsArchived);
 
                     cmd.ExecuteNonQuery();
 
