@@ -37,6 +37,7 @@ const InquireDetails = ({ isLoggedIn }) => {
 
   return (
     <>
+      <Button color="dark" className="mt-3" outline onClick={() => navigate(-1)} >Back</Button>
       <h2 className="inquire-title">{inquire.title}</h2>
       <Button className="mb-3">Add Answer</Button>
       {' '}
