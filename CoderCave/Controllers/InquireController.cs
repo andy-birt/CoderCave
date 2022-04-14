@@ -50,5 +50,16 @@ namespace CoderCave.Controllers
             return CreatedAtAction("Get", new { id = inquire.Id }, inquire);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Inquire inquire)
+        {
+            if (id != inquire.Id)
+            {
+                return BadRequest();
+            }
+            _inquireRepository.Update(inquire);
+            return NoContent();
+        }
+
     }
 }
