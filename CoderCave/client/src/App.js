@@ -6,6 +6,7 @@ import ApplicationViews from './components/ApplicationViews';
 import { TagProvider } from './providers/TagProvider';
 import { InquireProvider } from './providers/InquireProvider';
 import { SearchProvider } from './providers/SearchProvider';
+import Header from './components/Header';
 
 function App() {
   
@@ -23,7 +24,7 @@ function App() {
     <TagProvider>
       <InquireProvider>
         <SearchProvider>
-          {/* <Header /> */}
+          <Header isLoggedIn={isLoggedIn} />
           <ApplicationViews isLoggedIn={isLoggedIn} />
         </SearchProvider>
       </InquireProvider>
