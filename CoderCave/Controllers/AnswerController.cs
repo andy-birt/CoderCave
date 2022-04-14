@@ -17,6 +17,12 @@ namespace CoderCave.Controllers
             _answerRepository = answerRepository;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_answerRepository.GetAnswer(id));
+        }
+
         [HttpPost]
         public IActionResult Post(Answer answer)
         {
@@ -24,6 +30,17 @@ namespace CoderCave.Controllers
             answer.CreatedAt = DateTime.Now;
             _answerRepository.Add(answer);
             return CreatedAtAction(nameof(Answer), new { id = answer.Id }, answer);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Answer answer)
+        {
+            if (id != answer.Id)
+            {
+                return BadRequest();
+            }
+            _answerRepository.Update(answer);
+            return NoContent();
         }
     }
 }
