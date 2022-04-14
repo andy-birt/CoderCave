@@ -9,9 +9,11 @@ import TagList from "../tag/TagList";
 import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 
-const InquireDetails = () => {
+const InquireDetails = ({ isLoggedIn }) => {
 
-  const loggedInUserFBID = getAuth().currentUser.uid;
+  let loggedInUserFBID = null;
+   
+  if (isLoggedIn) loggedInUserFBID = getAuth().currentUser.uid;
 
   const [currentUser, setCurrentUser] = useState({});
 
@@ -26,9 +28,11 @@ const InquireDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    fetch(`/api/user/${loggedInUserFBID}`)
-      .then(r => r.json())
-      .then(setCurrentUser);
+    if (isLoggedIn) {
+      fetch(`/api/user/${loggedInUserFBID}`)
+        .then(r => r.json())
+        .then(setCurrentUser);
+    }
   }, [currentUser.id]);
 
   return (
@@ -37,7 +41,7 @@ const InquireDetails = () => {
       <Button className="mb-3">Add Answer</Button>
       {' '}
       {
-        (inquire.userId === currentUser.id || currentUser.userType?.type === "Admin") &&
+        (isLoggedIn && (inquire.userId === currentUser.id || currentUser.userType?.type === "Admin")) &&
         <>
           <Button onClick={() => navigate(`/inquire/edit/${id}`)} className="mb-3">Edit Question</Button>
           {' '}
@@ -51,7 +55,9 @@ const InquireDetails = () => {
         <div className="col-11">
           <div>{inquire.content}</div>
           <div className="d-flex justify-content-end align-items-center inquire-author-info">
-            <TagList tags={inquire.tags} />
+            <div  className="details-tag-list mt-2">
+              <TagList tags={inquire.tags} />
+            </div>
             <Link to={`/user/${inquire.userId}`}>
               <img src={inquire.authorImageURL} alt="" style={{width: 75}} />
               - {inquire.authorName} 
