@@ -44,7 +44,7 @@ const InquireForm = () => {
       // Were going to use the inquire state but in order to include the tags we selected were using the inquireTags state and filtering the tags to create tag objects
       saveInquire({...inquire, tags: tags.filter(t => inquireTags.find(it => it === t.id))}).then((i) => navigate(`/inquire/details/${i.id}`));
     } else {
-      editInquire({...inquire, tags: tags.filter(t => inquireTags.find(it => it === t.id))}).then((i) => navigate(`/inquire/details/${i.id}`));
+      editInquire({...inquire, tags: tags.filter(t => inquireTags.find(it => it === t.id))}).then(() => navigate(`/inquire/details/${inquire.id}`));
     }
   };
 

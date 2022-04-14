@@ -262,7 +262,7 @@ namespace CoderCave.Repositories
                         DELETE FROM InquireTag WHERE InquireId = @Id
 
                         UPDATE Inquire
-                        SET Title = @Title
+                        SET Title = @Title,
                             Content = @Content
                         WHERE Id = @Id
                     ";
