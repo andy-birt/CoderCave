@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { Button, Container, Form, FormGroup, FormText, Input, Label } from "reactstrap";
 import { AnswerContext } from "../../providers/AnswerProvider";
 import { CommentContext } from "../../providers/CommentProvider";
@@ -20,6 +20,8 @@ const AnswerCommentForm = ({ isLoggedIn }) => {
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const path = useLocation().pathname;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,24 +45,31 @@ const AnswerCommentForm = ({ isLoggedIn }) => {
     if (isLoggedIn) {
       fetch(`/api/user/${currentUser.uid}`)
         .then(r => r.json())
-        .then((user) => setComment({...comment, userId: user.id}));
+        .then((user) => {
+
+          const editRegex = new RegExp('edit');
+          const isEditPath = editRegex.test(path);
+
+          if (!isEditPath) {
+            getAnswerById(id)
+              .then((a) => {
+                setComment({ ...comment, userId: user.id, answerId: a.id });
+                setAnswer(a);
+              });
+          } else {
+            getAnswerCommentById(id)
+              .then((c) => {
+                getAnswerById(c.answerId)
+                  .then((a) => {
+                    setAnswer(a);
+                    setComment(c);
+                  });
+              });
+          }
+        });
     } else {
       navigate(-1);
     }
-
-    if (!comment.answerId) {
-      getAnswerById(id)
-        .then((a) => {
-          setComment({ ...comment, answerId: a.id });
-          setAnswer(a);
-        });
-    } 
-
-    if (answer.id && (+id !== answer.id)) {
-      console.log(`${typeof id} ${typeof answer.id}`)
-      getAnswerCommentById(id)
-        .then(setComment);
-    } 
   }, [id]);
 
   return (
