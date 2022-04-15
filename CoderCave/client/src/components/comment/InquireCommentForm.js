@@ -39,18 +39,21 @@ const InquireCommentForm = ({ isLoggedIn }) => {
   useEffect(() => {
     if (!comment.inquireId) {
       getInquire(id);
-    }
-
-    if (id === comment.id) {
-      getInquireCommentById(id);
-    } else if (isLoggedIn) {
+    } 
+    
+    if (isLoggedIn) {
       fetch(`/api/user/${currentUser.uid}`)
         .then(r => r.json())
         .then((user) => setComment({...comment, userId: user.id}));
     } else {
       navigate(-1);
     }
-  }, []);
+
+    if (id !== inquire.id) {
+      getInquireCommentById(id)
+        .then(setComment);
+    } 
+  }, [id]);
 
   return (
     <Container>
