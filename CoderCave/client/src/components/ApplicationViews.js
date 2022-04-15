@@ -10,6 +10,7 @@ import Main from "./main/Main";
 import Result from "./result/Result";
 import TagDetails from "./tag/TagDetails";
 import AnswerForm from "./answer/AnswerForm";
+import InquireCommentForm from "./comment/InquireCommentForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -37,6 +38,8 @@ export default function ApplicationViews({ isLoggedIn }) {
       <Route path="/inquire/answer/:id" element={<AnswerForm isLoggedIn={isLoggedIn} /> } />
 
       <Route path="/inquire/answer/edit/:id" element={<AnswerForm isLoggedIn={isLoggedIn} /> } />
+
+      <Route path="/inquire/comment/:id" element={<InquireCommentForm isLoggedIn={isLoggedIn} /> } />
 
       <Route path="/tag/details/:id" element={<TagDetails />} />
 
