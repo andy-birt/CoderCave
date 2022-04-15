@@ -11,7 +11,7 @@ const InquireCommentForm = ({ isLoggedIn }) => {
 
   const { inquire, getInquire } = useContext(InquireContext);
 
-  const { saveInquireComment, editInquireComment } = useContext(CommentContext);
+  const { saveInquireComment, editInquireComment, getInquireCommentById } = useContext(CommentContext);
 
   const [ comment, setComment ] = useState({ inquireId: inquire.id });
 
@@ -41,7 +41,9 @@ const InquireCommentForm = ({ isLoggedIn }) => {
       getInquire(id);
     }
 
-    if (isLoggedIn) {
+    if (id === comment.id) {
+      getInquireCommentById(id);
+    } else if (isLoggedIn) {
       fetch(`/api/user/${currentUser.uid}`)
         .then(r => r.json())
         .then((user) => setComment({...comment, userId: user.id}));
