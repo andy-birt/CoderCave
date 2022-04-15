@@ -8,6 +8,7 @@ import { InquireProvider } from './providers/InquireProvider';
 import { SearchProvider } from './providers/SearchProvider';
 import Header from './components/Header';
 import { AnswerProvider } from './providers/AnswerProvider';
+import { CommentProvider } from './providers/CommentProvider';
 
 function App() {
   
@@ -26,8 +27,10 @@ function App() {
       <InquireProvider>
         <SearchProvider>
           <AnswerProvider>
-            <Header isLoggedIn={isLoggedIn} />
-            <ApplicationViews isLoggedIn={isLoggedIn} />
+            <CommentProvider>
+              <Header isLoggedIn={isLoggedIn} />
+              <ApplicationViews isLoggedIn={isLoggedIn} />
+            </CommentProvider>
           </AnswerProvider>
         </SearchProvider>
       </InquireProvider>
