@@ -14,7 +14,7 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
 
   const [currentUser, setCurrentUser] = useState({});
 
-  const { deleteAnswer } = useContext(AnswerContext);
+  const { deleteAnswer, editAnswer } = useContext(AnswerContext);
 
   const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
           <div className="col-11">
             <div>{a.content}</div>
             <div className="d-flex justify-content-end align-items-center answer-author-info">
-            { currentUser.id === inquireUserId && <Button>Select Answer</Button> }
+            { currentUser.id === inquireUserId && <Button onClick={() => editAnswer({ ...a, isSelected: true })} >Select Answer</Button> }
             {
               (isLoggedIn && a.userId === currentUser.id ) &&
               <>
