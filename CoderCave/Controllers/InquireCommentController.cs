@@ -17,6 +17,12 @@ namespace CoderCave.Controllers
             _commentRepository = commentRepository;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_commentRepository.GetComment(id));
+        }
+
         [HttpPost]
         public IActionResult Post(InquireComment comment)
         {
