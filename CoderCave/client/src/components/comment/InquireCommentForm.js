@@ -2,6 +2,7 @@ import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Button, Container, Form, FormGroup, FormText, Input, Label } from "reactstrap";
+import { CommentContext } from "../../providers/CommentProvider";
 import { InquireContext } from "../../providers/InquireProvider";
 
 const InquireCommentForm = ({ isLoggedIn }) => {
@@ -10,13 +11,24 @@ const InquireCommentForm = ({ isLoggedIn }) => {
 
   const { inquire, getInquire } = useContext(InquireContext);
 
-  const [ comment, setComment ] = useState({});
+  const { saveInquireComment, editInquireComment } = useContext(CommentContext);
+
+  const [ comment, setComment ] = useState({ inquireId: inquire.id });
 
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!comment.id) {
+      saveInquireComment(comment)
+        .then(() => navigate(`/inquire/details/${comment.inquireId}`));
+    } else {
+      editInquireComment(comment)
+        .then(() => navigate(`/inquire/details/${comment.inquireId}`));
+    }
+  };
 
   const handleChange = (e) => {
     const newComment = { ...comment };
@@ -25,8 +37,8 @@ const InquireCommentForm = ({ isLoggedIn }) => {
   };
 
   useEffect(() => {
-    if (!inquire.id) {
-      getInquire(inquire.id);
+    if (!comment.inquireId) {
+      getInquire(id);
     }
 
     if (isLoggedIn) {
