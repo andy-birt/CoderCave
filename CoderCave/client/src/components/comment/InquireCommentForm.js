@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { Button, Container, Form, FormGroup, FormText, Input, Label } from "reactstrap";
 import { CommentContext } from "../../providers/CommentProvider";
 import { InquireContext } from "../../providers/InquireProvider";
@@ -13,11 +13,13 @@ const InquireCommentForm = ({ isLoggedIn }) => {
 
   const { saveInquireComment, editInquireComment, getInquireCommentById } = useContext(CommentContext);
 
-  const [ comment, setComment ] = useState({ inquireId: inquire.id });
+  const [ comment, setComment ] = useState({});
 
   const { id } = useParams();
 
   const navigate = useNavigate();
+
+  const path = useLocation().pathname;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -37,22 +39,28 @@ const InquireCommentForm = ({ isLoggedIn }) => {
   };
 
   useEffect(() => {
-    if (!comment.inquireId) {
-      getInquire(id);
-    } 
-    
+        
     if (isLoggedIn) {
       fetch(`/api/user/${currentUser.uid}`)
         .then(r => r.json())
-        .then((user) => setComment({...comment, userId: user.id}));
+        .then((user) => {
+
+          const editRegex = new RegExp('edit');
+          const isEditPath = editRegex.test(path);
+
+          if (!isEditPath) {
+            getInquire(id)
+              .then(() => {
+                setComment({ ...comment, userId: user.id, inquireId: inquire.id });
+              });
+          } else {
+            getInquireCommentById(id)
+              .then(setComment);
+          }
+        });
     } else {
       navigate(-1);
     }
-
-    if (id !== inquire.id) {
-      getInquireCommentById(id)
-        .then(setComment);
-    } 
   }, [id]);
 
   return (
