@@ -10,6 +10,43 @@ namespace CoderCave.Repositories
     {
         public InquireCommentRepository(IConfiguration configuration) : base(configuration) { }
 
+        public InquireComment GetComment(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT c.Id, c.UserId, c.InquireId, c.Content, c.CreatedAt
+                        FROM InquireComment c
+                        WHERE c.Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    InquireComment comment = null;
+
+                    if (reader.Read())
+                    {
+                        comment = new InquireComment()
+                        {
+                            Id = id,
+                            UserId = DbUtils.GetInt(reader, "UserId"),
+                            InquireId = DbUtils.GetInt(reader, "InquireId"),
+                            Content = DbUtils.GetString(reader, "Content"),
+                            CreatedAt = DbUtils.GetDateTime(reader, "CreatedAt")
+                        };
+                    }
+
+                    reader.Close();
+                    return comment;
+                }
+            }
+        }
+
         public void Add(InquireComment comment)
         {
             using (var conn = Connection)
@@ -46,6 +83,7 @@ namespace CoderCave.Repositories
                         WHERE Id = @Id
                     ";
 
+                    DbUtils.AddParameter(cmd, "@Content", comment.Content);
                     DbUtils.AddParameter(cmd, "@Id", comment.Id);
 
                     cmd.ExecuteNonQuery();
