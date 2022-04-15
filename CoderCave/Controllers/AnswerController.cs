@@ -49,5 +49,12 @@ namespace CoderCave.Controllers
             _answerRepository.Delete(id);
             return NoContent();
         }
+
+        [HttpPost("{answerId}")]
+        public IActionResult Vote(int answerId, int value)
+        {
+            _answerRepository.AddVote(answerId, value);
+            return NoContent();
+        }
     }
 }

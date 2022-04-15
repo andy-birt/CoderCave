@@ -306,6 +306,27 @@ namespace CoderCave.Repositories
             }
         }
 
+        public void AddVote(int inquireId, int value)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO VoteInquire ([InquireId], [Value])
+                        VALUES (@InquireId, @Value)
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@InquireId", inquireId);
+                    DbUtils.AddParameter(cmd, "@Value", value);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+
         private Inquire NewSearchResultFromReader(SqlDataReader r)
         {
             return new Inquire()

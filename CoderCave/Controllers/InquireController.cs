@@ -62,5 +62,11 @@ namespace CoderCave.Controllers
             return NoContent();
         }
 
+        [HttpPost("{inquireId}")]
+        public IActionResult Vote(int inquireId, int value)
+        {
+            _inquireRepository.AddVote(inquireId, value);
+            return NoContent();
+        }
     }
 }

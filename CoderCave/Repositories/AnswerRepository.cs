@@ -127,5 +127,26 @@ namespace CoderCave.Repositories
                 }
             }
         }
+
+        public void AddVote(int answerId, int value)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO VoteAnswer ([AnswerId], [Value])
+                        VALUES (@AnswerId, @Value)
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@AnswerId", answerId);
+                    DbUtils.AddParameter(cmd, "@Value", value);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
     }
 }
