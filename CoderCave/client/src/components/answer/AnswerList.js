@@ -53,7 +53,7 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
       <div key={a.id} className="mt-5">
         <div className="row">
           <div className="col-1">
-            <Score score={a.score} isSelected={a.isSelected} />
+            <Score voteType={'answer'} score={a.score} isSelected={a.isSelected} id={a.id} />
           </div>
           <div className="col-11">
             <div>{a.content}</div>

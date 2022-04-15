@@ -35,9 +35,15 @@ export const AnswerProvider = (props) => {
     });
   };
 
+  const voteAnswer = (id, value) => {
+    return fetch(`/api/answer/${id}?value=${value}`, {
+      method: "POST"
+    });
+  };
+
   return (
     <AnswerContext.Provider value={{
-      getAnswerById, saveAnswer, editAnswer, deleteAnswer
+      getAnswerById, saveAnswer, editAnswer, deleteAnswer, voteAnswer
     }}>
       {props.children}
     </AnswerContext.Provider>

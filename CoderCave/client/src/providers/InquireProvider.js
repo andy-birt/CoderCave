@@ -40,10 +40,17 @@ export const InquireProvider = (props) => {
     });
   };
 
+  const voteInquire = (id, value) => {
+    return fetch(`/api/inquire/${id}?value=${value}`, {
+      method: "POST"
+    });
+  };
+
   return (
     <InquireContext.Provider value={{
       inquiries, getAllByTagId,
-      inquire, getInquire, saveInquire, editInquire
+      inquire, getInquire, saveInquire, editInquire,
+      voteInquire
     }} >
       {props.children}
     </InquireContext.Provider>

@@ -1,4 +1,14 @@
-const Score = ({ score, isSelected }) => {
+import { useContext } from "react";
+import { useLocation } from "react-router";
+import { AnswerContext } from "../../providers/AnswerProvider";
+import { InquireContext } from "../../providers/InquireProvider";
+
+const Score = ({ voteType, score, isSelected, id }) => {
+
+  const { voteInquire, getInquire } = useContext(InquireContext);
+  const { voteAnswer } = useContext(AnswerContext);
+
+  const [,,,inquireId] = useLocation().pathname.split('/');
 
   //* When hovering over the arrow give it a fill
   const handleMouseOver = (e) => {
@@ -20,12 +30,22 @@ const Score = ({ score, isSelected }) => {
     }
   };
 
+  const handleVote = (v) => {
+    if (voteType === 'inquire') {
+      voteInquire(id, v)
+        .then(() => getInquire(inquireId));
+    } else {
+      voteAnswer(id, v)
+        .then(() => getInquire(inquireId));
+    }
+  };
+
   return (
     <div className="text-center">
       { isSelected && <i className="selected-answer bi bi-check-lg"></i> }
-      <h3 ><i onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} className="bi bi-arrow-up-square"></i></h3>
+      <h3 ><i onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} onClick={() => handleVote(1)} className="bi bi-arrow-up-square"></i></h3>
       <div className="score text-center">{score}</div>
-      <h3 className="mt-2"><i onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} className="bi bi-arrow-down-square"></i></h3>
+      <h3 className="mt-2"><i onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave} onClick={() => handleVote(-1)} className="bi bi-arrow-down-square"></i></h3>
     </div>
   );
 };

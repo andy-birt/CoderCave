@@ -74,7 +74,7 @@ const InquireDetails = ({ isLoggedIn }) => {
       }
       <div className="row">
         <div className="col-1">
-          <Score score={inquire.score} />
+          <Score voteType={'inquire'}  score={inquire.score} id={inquire.id} />
         </div>
         <div className="col-11">
           <div>{inquire.content}</div>
