@@ -79,7 +79,20 @@ namespace CoderCave.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
+                    // If an answer is selected then any other selected answer should be deselected
+                    if (answer.IsSelected)
+                    {
+                        cmd.CommandText = @"
+                            UPDATE Answer
+                            SET Content = @Content,
+                                IsSelected = 0
+                            WHERE InquireId = @InquireId
+                        ";
+
+                        DbUtils.AddParameter(cmd, "@InquireId", answer.InquireId);
+                    }
+
+                    cmd.CommandText += @"
                         UPDATE Answer
                         SET Content = @Content,
                             IsSelected = @IsSelected
