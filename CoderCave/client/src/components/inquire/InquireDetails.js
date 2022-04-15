@@ -38,6 +38,14 @@ const InquireDetails = ({ isLoggedIn }) => {
     }
   };
 
+  const handleCommentButtonClick = (e) => {
+    if (isLoggedIn) {
+      navigate(`/inquire/comment/${inquire.id}`);
+    } else {
+      alert("You must be logged in to comment on a question");
+    }
+  };
+
   useEffect(() => {
     getInquire(id);
   }, [id]);
@@ -81,7 +89,7 @@ const InquireDetails = ({ isLoggedIn }) => {
             {new Date(inquire.createdAt).toLocaleString()}  
           </div>
           <CommentList comments={inquire.comments} isLoggedIn={isLoggedIn} />
-          <Button>Add Comment</Button>
+          <Button onClick={handleCommentButtonClick} >Add Comment</Button>
         </div>
       </div>
       <AnswerList answers={inquire.answers} isLoggedIn={isLoggedIn} getInquire={getInquire} />
