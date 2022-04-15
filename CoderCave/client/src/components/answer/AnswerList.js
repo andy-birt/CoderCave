@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { AnswerContext } from "../../providers/AnswerProvider";
 
-const AnswerList = ({ answers, isLoggedIn, getInquire }) => {
+const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
 
   let loggedInUserFBID = null;
    
@@ -51,6 +51,7 @@ const AnswerList = ({ answers, isLoggedIn, getInquire }) => {
           <div className="col-11">
             <div>{a.content}</div>
             <div className="d-flex justify-content-end align-items-center answer-author-info">
+            { currentUser.id === inquireUserId && <Button>Select Answer</Button> }
             {
               (isLoggedIn && a.userId === currentUser.id ) &&
               <>
