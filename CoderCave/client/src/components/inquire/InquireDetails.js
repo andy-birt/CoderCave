@@ -88,7 +88,7 @@ const InquireDetails = ({ isLoggedIn }) => {
             </Link>
             {new Date(inquire.createdAt).toLocaleString()}  
           </div>
-          <CommentList comments={inquire.comments} isLoggedIn={isLoggedIn} />
+          <CommentList comments={inquire.comments} isLoggedIn={isLoggedIn} getInquire={getInquire} />
           <Button onClick={handleCommentButtonClick} >Add Comment</Button>
         </div>
       </div>
