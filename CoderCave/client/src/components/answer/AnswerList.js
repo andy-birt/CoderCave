@@ -64,8 +64,8 @@ const AnswerList = ({ answers, isLoggedIn, getInquire }) => {
               </Link>
               &nbsp;{new Date(a.createdAt).toLocaleString()}
             </div>
-            <CommentList comments={a.comments} />
-            <Button onClick={() => handleCommentButtonClick(a.inquireId)} >Add Comment</Button>
+            <CommentList comments={a.comments} isLoggedIn={isLoggedIn} getInquire={getInquire} />
+            <Button onClick={() => handleCommentButtonClick(a.id)} >Add Comment</Button>
           </div>
         </div>
       </div>
