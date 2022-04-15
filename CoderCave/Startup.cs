@@ -34,6 +34,7 @@ namespace CoderCave
             services.AddTransient<IInquireRepository, InquireRepository>();
             services.AddTransient<IAnswerRepository, AnswerRepository>();
             services.AddTransient<IInquireCommentRepository, InquireCommentRepository>();
+            services.AddTransient<IAnswerCommentRepository, AnswerCommentRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

@@ -18,6 +18,14 @@ const AnswerList = ({ answers, isLoggedIn, getInquire }) => {
 
   const navigate = useNavigate();
 
+  const handleCommentButtonClick = (id) => {
+    if (isLoggedIn) {
+      navigate(`/inquire/answer/comment/${id}`);
+    } else {
+      alert("You must be logged in to comment on a question");
+    }
+  };
+
   const handleDeleteAnswer = (id, inquireId) => {
     if (window.confirm('Are you sure you want to delete this answer?')) {
       deleteAnswer(id)
@@ -57,7 +65,7 @@ const AnswerList = ({ answers, isLoggedIn, getInquire }) => {
               &nbsp;{new Date(a.createdAt).toLocaleString()}
             </div>
             <CommentList comments={a.comments} />
-            <Button>Add Comment</Button>
+            <Button onClick={() => handleCommentButtonClick(a.inquireId)} >Add Comment</Button>
           </div>
         </div>
       </div>

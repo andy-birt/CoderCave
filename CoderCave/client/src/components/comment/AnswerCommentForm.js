@@ -9,11 +9,13 @@ const AnswerCommentForm = ({ isLoggedIn }) => {
 
   const currentUser = getAuth().currentUser;
 
-  const { answer, getAnswerById } = useContext(AnswerContext);
+  const { getAnswerById } = useContext(AnswerContext);
 
   const { saveAnswerComment, editAnswerComment, getAnswerCommentById } = useContext(CommentContext);
 
-  const [ comment, setComment ] = useState({ answerId: answer.id });
+  const [ comment, setComment ] = useState({});
+
+  const [ answer, setAnswer ] = useState({});
 
   const { id } = useParams();
 
@@ -37,10 +39,7 @@ const AnswerCommentForm = ({ isLoggedIn }) => {
   };
 
   useEffect(() => {
-    if (!comment.inquireId) {
-      getAnswerById(id);
-    } 
-    
+        
     if (isLoggedIn) {
       fetch(`/api/user/${currentUser.uid}`)
         .then(r => r.json())
@@ -49,7 +48,16 @@ const AnswerCommentForm = ({ isLoggedIn }) => {
       navigate(-1);
     }
 
-    if (id !== answer.id) {
+    if (!comment.answerId) {
+      getAnswerById(id)
+        .then((a) => {
+          setComment({ ...comment, answerId: a.id });
+          setAnswer(a);
+        });
+    } 
+
+    if (answer.id && (+id !== answer.id)) {
+      console.log(`${typeof id} ${typeof answer.id}`)
       getAnswerCommentById(id)
         .then(setComment);
     } 
@@ -59,7 +67,7 @@ const AnswerCommentForm = ({ isLoggedIn }) => {
     <Container>
       <Form onSubmit={handleSubmit}>
         <Button color="dark" className="mt-3 mb-3" outline onClick={() => navigate(-1)} >Back</Button>
-        <h3>{answer.title}</h3>
+        <h3>Answer</h3>
         <FormText>{answer.content}</FormText>
         <p></p>
         <FormGroup>
