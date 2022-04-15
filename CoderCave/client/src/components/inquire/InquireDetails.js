@@ -92,7 +92,7 @@ const InquireDetails = ({ isLoggedIn }) => {
           <Button onClick={handleCommentButtonClick} >Add Comment</Button>
         </div>
       </div>
-      <AnswerList answers={inquire.answers} isLoggedIn={isLoggedIn} getInquire={getInquire} />
+      <AnswerList inquireUserId={inquire.userId} answers={inquire.answers} isLoggedIn={isLoggedIn} getInquire={getInquire} />
     </>
   );
 };
