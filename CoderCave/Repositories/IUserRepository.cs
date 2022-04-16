@@ -6,5 +6,6 @@ namespace CoderCave.Repositories
     {
         void Add(User user);
         User GetByFirebaseUserId(string firebaseUserId);
+        User GetByUserId(int id);
     }
 }

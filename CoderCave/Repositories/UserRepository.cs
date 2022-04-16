@@ -8,6 +8,52 @@ namespace CoderCave.Repositories
     {
         public UserRepository(IConfiguration configuration) : base(configuration) { }
 
+        public User GetByUserId(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT u.Id AS UserId, u.FirebaseUserId, u.DisplayName AS DisplayName, u.Email, u.FirstName, u.LastName, u.ImageURL, u.Bio,
+                               ut.Id AS UserTypeId, ut.Name AS UserTypeName
+                          FROM [User] u
+                               LEFT JOIN UserType ut on u.Id = ut.UserId
+                         WHERE u.Id = @Id";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    User userProfile = null;
+
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        userProfile = new User()
+                        {
+                            Id = DbUtils.GetInt(reader, "UserId"),
+                            FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
+                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            ImageURL = DbUtils.GetString(reader, "ImageURL"),
+                            Bio = DbUtils.GetString(reader, "Bio"),
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                UserId = DbUtils.GetInt(reader, "UserId"),
+                                Type = DbUtils.GetString(reader, "UserTypeName")
+                            }
+                        };
+                    }
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
+        }
+
         public User GetByFirebaseUserId(string firebaseUserId)
         {
             using (var conn = Connection)

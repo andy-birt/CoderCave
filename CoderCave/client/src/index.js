@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { UserProvider } from './providers/UserProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -13,7 +14,9 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </Router>
   </React.StrictMode>
 );

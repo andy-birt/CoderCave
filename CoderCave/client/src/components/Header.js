@@ -4,7 +4,7 @@ import { logout } from "../managers/authManager";
 import { useNavigate } from "react-router";
 
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ isLoggedIn, isAdmin }) => {
 
   const navigate = useNavigate();
 
@@ -24,11 +24,11 @@ const Header = ({ isLoggedIn }) => {
         <NavLogo />
       </NavbarBrand>
       <NavbarToggler onClick={function noRefCheck(){}} />
-      <Collapse navbar>
+      <Collapse navbar style={{justifyContent: 'end'}}>
         <Nav
-          className="me-auto"
           navbar
         >
+          
           { !isLoggedIn &&
             <>
               <NavItem>
@@ -39,6 +39,21 @@ const Header = ({ isLoggedIn }) => {
               <NavItem>
                 <NavLink href="/register">
                   Register
+                </NavLink>
+              </NavItem>
+            </>
+          }
+
+          { (isLoggedIn && isAdmin) &&
+            <>
+              <NavItem>
+                <NavLink href="/tag">
+                  Tags
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/user">
+                  Users
                 </NavLink>
               </NavItem>
             </>

@@ -12,8 +12,9 @@ import TagDetails from "./tag/TagDetails";
 import AnswerForm from "./answer/AnswerForm";
 import InquireCommentForm from "./comment/InquireCommentForm";
 import AnswerCommentForm from "./comment/AnswerCommentForm";
+import TagListAdmin from "./tag/TagListAdmin";
 
-export default function ApplicationViews({ isLoggedIn }) {
+export default function ApplicationViews({ isLoggedIn, isAdmin }) {
   return (
     <Routes>
       <Route path="/" element={<Main isLoggedIn={isLoggedIn} />} />
@@ -47,6 +48,8 @@ export default function ApplicationViews({ isLoggedIn }) {
       <Route path="/inquire/answer/comment/:id" element={<AnswerCommentForm isLoggedIn={isLoggedIn} /> } />
 
       <Route path="/inquire/answer/comment/edit/:id" element={<AnswerCommentForm isLoggedIn={isLoggedIn} /> } />
+
+      <Route path="/tag" element={isAdmin ? <TagListAdmin /> : <>Turn Back Now</>} />
 
       <Route path="/tag/details/:id" element={<TagDetails />} />
 

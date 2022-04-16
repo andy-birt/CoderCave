@@ -16,6 +16,17 @@ namespace CoderCave.Controllers
             _userRepository = userRepository;
         }
 
+        [HttpGet]
+        public IActionResult Get(int userId)
+        {
+            var userProfile = _userRepository.GetByUserId(userId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok(userProfile);
+        }
+
         [HttpGet("{firebaseUserId}")]
         public IActionResult GetByFirebaseUserId(string firebaseUserId)
         {
