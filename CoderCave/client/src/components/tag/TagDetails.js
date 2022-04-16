@@ -6,9 +6,9 @@ import { TagContext } from "../../providers/TagProvider";
 import InquireList from "../inquire/InquireList";
 
 
-const TagDetails = ({ isLoggedIn }) => {
+const TagDetails = ({ isLoggedIn, isAdmin }) => {
 
-  const { tag, getTag } = useContext(TagContext);
+  const { tag, getTag, deleteTag } = useContext(TagContext);
 
   const { getAllByTagId } = useContext(InquireContext);
 
@@ -24,6 +24,17 @@ const TagDetails = ({ isLoggedIn }) => {
     }
   };
 
+  const handleEditClick = () => {
+    navigate(`/tag/edit/${id}`);
+  };
+
+  const handleDeleteClick = () => {
+    if (window.confirm('Are you sure you want to delete this tag?')) {
+      deleteTag(id)
+        .then(() => navigate('/tag'));
+    }
+  };
+
   useEffect(() => {
     getTag(id)
       .then(() => getAllByTagId(id));
@@ -32,6 +43,13 @@ const TagDetails = ({ isLoggedIn }) => {
   return (
     <Container>
       <h3>{tag.name}</h3>
+      { isAdmin && 
+        <>
+          <Button className="mb-3" onClick={handleEditClick}>Edit Tag</Button>
+          {' '}
+          <Button className="mb-3" onClick={handleDeleteClick}>Delete Tag</Button>
+        </>
+      }
       <p>{tag.description}</p>
       <Button onClick={handleQuestionButtonClick} >Ask a Question</Button>
       <InquireList />

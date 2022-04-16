@@ -19,11 +19,45 @@ export const TagProvider = (props) => {
       .then(r => r.json())
       .then(setTag);
   };
+
+  // I will use this one for editing an existing tag
+
+  const getTagById = (id) => {
+    return fetch(`/api/tag/${id}`)
+      .then(r => r.json());
+  };
+
+  const saveTag = (tag) => {
+    return fetch('/api/tag', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tag)
+    });
+  };
+
+  const editTag = (tag) => {
+    return fetch(`/api/tag/${tag.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tag)
+    });
+  };
+
+  const deleteTag = (id) => {
+    return fetch(`/api/tag/${id}`, {
+      method: "DELETE"
+    })
+  };
   
   return (
     <TagContext.Provider value={{
       tags, getAllTags,
-      tag, getTag
+      tag, getTag, getTagById,
+      saveTag, editTag, deleteTag
     }}>
       {props.children}
     </TagContext.Provider>

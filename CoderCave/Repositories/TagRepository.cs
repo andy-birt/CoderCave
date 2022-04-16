@@ -71,5 +71,71 @@ namespace CoderCave.Repositories
                 }
             }
         }
+
+        public void Add(Tag tag)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Tag ([Name], [Description])
+                        OUTPUT INSERTED.ID
+                        VALUES (@Name, @Description)
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Name", tag.Name);
+                    DbUtils.AddParameter(cmd, "@Description", tag.Description);
+
+                    tag.Id = (int)cmd.ExecuteScalar();
+
+                }
+            }
+        }
+
+        public void Update(Tag tag)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Tag 
+                        SET Name = @Name,
+                            Description = @Description
+                        WHERE Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", tag.Id);
+                    DbUtils.AddParameter(cmd, "@Name", tag.Name);
+                    DbUtils.AddParameter(cmd, "@Description", tag.Description);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        DELETE FROM Tag
+                        WHERE Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import AnswerForm from "./answer/AnswerForm";
 import InquireCommentForm from "./comment/InquireCommentForm";
 import AnswerCommentForm from "./comment/AnswerCommentForm";
 import TagListAdmin from "./tag/TagListAdmin";
+import TagForm from "./tag/TagForm";
 
 export default function ApplicationViews({ isLoggedIn, isAdmin }) {
   return (
@@ -51,7 +52,11 @@ export default function ApplicationViews({ isLoggedIn, isAdmin }) {
 
       <Route path="/tag" element={isAdmin ? <TagListAdmin /> : <>Turn Back Now</>} />
 
-      <Route path="/tag/details/:id" element={<TagDetails />} />
+      <Route path="/tag/new" element={isAdmin ? <TagForm /> : <>Turn Back Now</>} />
+
+      <Route path="/tag/edit/:id" element={isAdmin ? <TagForm /> : <>Turn Back Now</>} />
+
+      <Route path="/tag/details/:id" element={<TagDetails isAdmin={isAdmin} />} />
 
       <Route path="/tag/questions/:id" element={<InquireList isLoggedIn={isLoggedIn} />} />
 
