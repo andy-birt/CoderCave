@@ -124,5 +124,74 @@ namespace CoderCave.Repositories
                 }
             }
         }
+
+        public void Update(User user)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE User
+                        SET Email = @Email,
+                            DisplayName = @DisplayName,
+                            FirstName = @FirstName,
+                            LastName = @LastName,
+                            ImageURL = @ImageURL,
+                            Bio = @Bio
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Email", user.Email);
+                    DbUtils.AddParameter(cmd, "@DisplayName", user.DisplayName);
+                    DbUtils.AddParameter(cmd, "@FirstName", user.FirstName);
+                    DbUtils.AddParameter(cmd, "@LastName", user.LastName);
+                    DbUtils.AddParameter(cmd, "@ImageURL", user.ImageURL);
+                    DbUtils.AddParameter(cmd, "@Bio", user.Bio);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Deactivate(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE User
+                        SET IsActive = 0
+                        WHERE Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Activate(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE User
+                        SET IsActive = 1
+                        WHERE Id = @Id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@Id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

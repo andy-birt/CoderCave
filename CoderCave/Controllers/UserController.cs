@@ -58,5 +58,30 @@ namespace CoderCave.Controllers
             return CreatedAtAction(
                 nameof(GetByFirebaseUserId), new { firebaseUserId = user.FirebaseUserId }, user);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(int id, User user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+            _userRepository.Update(user);
+            return NoContent();
+        }
+
+        [HttpPut("/deactivate/{id}")]
+        public IActionResult DeactivateUser(int id)
+        {
+            _userRepository.Deactivate(id);
+            return NoContent();
+        }
+
+        [HttpPut("/activate/{id}")]
+        public IActionResult ActivateUser(int id)
+        {
+            _userRepository.Activate(id);
+            return NoContent();
+        }
     }
 }
