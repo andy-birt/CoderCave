@@ -14,6 +14,9 @@ import InquireCommentForm from "./comment/InquireCommentForm";
 import AnswerCommentForm from "./comment/AnswerCommentForm";
 import TagListAdmin from "./tag/TagListAdmin";
 import TagForm from "./tag/TagForm";
+import UserList from "./user/UserList";
+import UserDetails from "./user/UserDetails";
+import UserForm from "./user/UserForm";
 
 export default function ApplicationViews({ isLoggedIn, isAdmin }) {
   return (
@@ -59,6 +62,14 @@ export default function ApplicationViews({ isLoggedIn, isAdmin }) {
       <Route path="/tag/details/:id" element={<TagDetails isAdmin={isAdmin} />} />
 
       <Route path="/tag/questions/:id" element={<InquireList isLoggedIn={isLoggedIn} />} />
+
+      <Route path="/user/active" element={isAdmin ? <UserList /> : <>Turn Back Now</>} />
+
+      <Route path="/user/inactive" element={isAdmin ? <UserList /> : <>Turn Back Now</>} />
+
+      <Route path="/user/details/:id" element={<UserDetails />} />
+
+      <Route path="/user/edit/:id" element={<UserForm />} />
 
       <Route path="/search/:page" element={<Result />} />
 

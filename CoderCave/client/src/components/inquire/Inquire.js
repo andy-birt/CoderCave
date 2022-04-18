@@ -11,7 +11,7 @@ const Inquire = ({ inquire }) => {
       </CardBody>
       <CardBody>
         <CardText>
-          Posted By: <Link to={`/user/${inquire.userId}`}>{inquire.authorName}</Link>&nbsp;on {new Date(inquire.createdAt).toLocaleString()}
+          Posted By: <Link to={`/user/details/${inquire.userId}`}>{inquire.authorName}</Link>&nbsp;on {new Date(inquire.createdAt).toLocaleString()}
         </CardText>
         <CardText>
           Answers: {inquire.answersCount} &nbsp;

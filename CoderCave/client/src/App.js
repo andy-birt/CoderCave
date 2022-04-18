@@ -32,7 +32,6 @@ function App() {
       getCurrentUser(uid)
         .then(setCurrentUser);
     }
-    console.log(uid)
   }, [uid, getCurrentUser]);
 
   if (isLoggedIn === null) {

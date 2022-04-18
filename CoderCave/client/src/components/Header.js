@@ -52,7 +52,7 @@ const Header = ({ isLoggedIn, isAdmin }) => {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/user">
+                <NavLink href="/user/active">
                   Users
                 </NavLink>
               </NavItem>

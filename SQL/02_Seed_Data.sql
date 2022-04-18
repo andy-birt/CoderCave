@@ -2,26 +2,26 @@
 GO
 
 SET IDENTITY_INSERT [User] ON
-INSERT INTO [User] ([Id], [FirebaseUserId], [Email], [DisplayName], [FirstName], [LastName], [ImageURL], [Bio]) VALUES 
-(1, 'wiigiZFQwkQebRm2EdMA2lF653u1', 'admin@mail.com', 'admin', 'Adam', 'Inistrator', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(2, 'TolVGTUp0QQOgGRIaYnKlVxScpX2', 'author@mail.com', 'author', 'Arthur', 'Whinington', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(3, 'CqPziif2RWMNigWA0pxpxXVTXrz2', 'bob@mail.com', 'justbob', 'Bob', 'Jones', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(4, 'MZlkIwnNwifuVgZYbrC6UJlAR7j2', 'sally@mail.com', 'slaps4claps', 'Sally', 'Slappers', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(5, 'i3be7hAQvVVaKJu24lhwRsEndoB3', 'brent@mail.com', 'bgriffz', 'Brent', 'Griffith', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(6, 'i1XMIQVDdoMx84xu8TGK9fVdeez1', 'steven@mail.com', 'awesomepossum', 'Steven', 'Powers', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(7, 'espzGToPUHgq7a7BaW5L7bPRtCt2', 'nick@mail.com', 'eyeh8tomhanks', 'Nick', 'Perry', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(8, 'TrZ86avkBZRPmpZCh6GOK1dQwSj1', 'jordan@mail.com', 'manjordan', 'Jordan', 'Twyman', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(9, '8XfFrNXRcxTCKaBZWbefXakOUNi1', 'cameron@mail.com', 'cammerz', 'Cameron', 'Resuta', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(10, 'tjQSXDYPeeSPJeLjZUIalSY1q013', 'jonah@mail.com', 'ramjam', 'Jonah', 'Moore', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(11, 'dVfeESf3ArOveGavVCydwBi486W2', 'mel@mail.com', 'tipsycattypewriter', 'MelQuan', 'Green', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(12, 'Uze8WKYOjlQi4ZAzJ5J1lqcB6yq2', 'gary@mail.com', 'ironman', 'Gary', 'Clayton', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(13, 'j8dOY8CND1XWtSSEosPtHNC644s2', 'aki@mail.com', 'bonzaidreams', 'Aki', 'Endo', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(14, 'vyxxDssA5eQKJv5Dxd2z2ctKQSS2', 'amanda@mail.com', 'starfox', 'Amanda', 'Ball', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(15, 'PEQMX2IYHGa1CZHyWAR0EgVHwtx2', 'heaven@mail.com', 'superchargerheaven', 'Heaven', 'Burdette', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(16, 'IVqIQ5syOfOIQWWVa8nQpK8XMAc2', 'brandon@mail.com', 'digregz', 'Brandon', 'Di Gregorio', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(17, 'II0mOi7bqUU8FTlh0IK1njM6aAq2', 'nima@mail.com', 'elbandidochimichanga', 'Nima', 'Shahab Shahmir', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(18, 'WNsjpwXt8RhpUClOKeSmtU0LI5p1', 'brandi@mail.com', 'breakerofthings', 'Brandi', 'Dimitroff', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null),
-(19, 'MVwIqGD9u8RfcvSCVhotoV7DRnD2', 'andy@mail.com', 'birtman', 'Andy', 'Birt', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null)
+INSERT INTO [User] ([Id], [FirebaseUserId], [Email], [DisplayName], [FirstName], [LastName], [ImageURL], [Bio], [IsActive]) VALUES 
+(1, 'wiigiZFQwkQebRm2EdMA2lF653u1', 'admin@mail.com', 'admin', 'Adam', 'Inistrator', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(2, 'TolVGTUp0QQOgGRIaYnKlVxScpX2', 'author@mail.com', 'author', 'Arthur', 'Whinington', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(3, 'CqPziif2RWMNigWA0pxpxXVTXrz2', 'bob@mail.com', 'justbob', 'Bob', 'Jones', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(4, 'MZlkIwnNwifuVgZYbrC6UJlAR7j2', 'sally@mail.com', 'slaps4claps', 'Sally', 'Slappers', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(5, 'i3be7hAQvVVaKJu24lhwRsEndoB3', 'brent@mail.com', 'bgriffz', 'Brent', 'Griffith', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(6, 'i1XMIQVDdoMx84xu8TGK9fVdeez1', 'steven@mail.com', 'awesomepossum', 'Steven', 'Powers', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(7, 'espzGToPUHgq7a7BaW5L7bPRtCt2', 'nick@mail.com', 'eyeh8tomhanks', 'Nick', 'Perry', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(8, 'TrZ86avkBZRPmpZCh6GOK1dQwSj1', 'jordan@mail.com', 'manjordan', 'Jordan', 'Twyman', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(9, '8XfFrNXRcxTCKaBZWbefXakOUNi1', 'cameron@mail.com', 'cammerz', 'Cameron', 'Resuta', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(10, 'tjQSXDYPeeSPJeLjZUIalSY1q013', 'jonah@mail.com', 'ramjam', 'Jonah', 'Moore', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(11, 'dVfeESf3ArOveGavVCydwBi486W2', 'mel@mail.com', 'tipsycattypewriter', 'MelQuan', 'Green', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(12, 'Uze8WKYOjlQi4ZAzJ5J1lqcB6yq2', 'gary@mail.com', 'ironman', 'Gary', 'Clayton', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(13, 'j8dOY8CND1XWtSSEosPtHNC644s2', 'aki@mail.com', 'bonzaidreams', 'Aki', 'Endo', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(14, 'vyxxDssA5eQKJv5Dxd2z2ctKQSS2', 'amanda@mail.com', 'starfox', 'Amanda', 'Ball', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(15, 'PEQMX2IYHGa1CZHyWAR0EgVHwtx2', 'heaven@mail.com', 'superchargerheaven', 'Heaven', 'Burdette', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(16, 'IVqIQ5syOfOIQWWVa8nQpK8XMAc2', 'brandon@mail.com', 'digregz', 'Brandon', 'Di Gregorio', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(17, 'II0mOi7bqUU8FTlh0IK1njM6aAq2', 'nima@mail.com', 'elbandidochimichanga', 'Nima', 'Shahab Shahmir', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(18, 'WNsjpwXt8RhpUClOKeSmtU0LI5p1', 'brandi@mail.com', 'breakerofthings', 'Brandi', 'Dimitroff', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1),
+(19, 'MVwIqGD9u8RfcvSCVhotoV7DRnD2', 'andy@mail.com', 'birtman', 'Andy', 'Birt', 'https://robohash.org/numquamutut.png?size=150x150&set=set1', null, 1)
 SET IDENTITY_INSERT [User] OFF
 
 SET IDENTITY_INSERT [UserType] ON

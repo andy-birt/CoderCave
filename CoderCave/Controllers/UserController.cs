@@ -16,6 +16,18 @@ namespace CoderCave.Controllers
             _userRepository = userRepository;
         }
 
+        [HttpGet("active")]
+        public IActionResult GetActive()
+        {
+            return Ok(_userRepository.GetActiveUsers());
+        }
+
+        [HttpGet("inactive")]
+        public IActionResult GetInactive()
+        {
+            return Ok(_userRepository.GetInactiveUsers());
+        }
+
         [HttpGet]
         public IActionResult Get(int userId)
         {
@@ -52,8 +64,6 @@ namespace CoderCave.Controllers
         [HttpPost]
         public IActionResult Register(User user)
         {
-            // All newly registered users start out as a "user" user type (i.e. they are not admins)
-            //user.UserType = UserType.USER_TYPE_ID;
             _userRepository.Add(user);
             return CreatedAtAction(
                 nameof(GetByFirebaseUserId), new { firebaseUserId = user.FirebaseUserId }, user);
@@ -81,6 +91,26 @@ namespace CoderCave.Controllers
         public IActionResult ActivateUser(int id)
         {
             _userRepository.Activate(id);
+            return NoContent();
+        }
+
+        [HttpPut("/promote/{id}")]
+        public IActionResult PromoteUser(int id)
+        {
+            _userRepository.Promote(id);
+            return NoContent();
+        }
+
+        [HttpPut("/demote/{id}")]
+        public IActionResult DemoteUser(int id)
+        {
+            var adminCount = _userRepository.CheckAdminCount();
+
+            if (adminCount < 2)
+            {
+                return BadRequest("Cannot Demote this admin. Must have another admin first.");
+            }
+            _userRepository.Demote(id);
             return NoContent();
         }
     }

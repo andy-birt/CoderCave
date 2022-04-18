@@ -61,7 +61,7 @@ const CommentList = ({ comments, isLoggedIn, getInquire }) => {
                 <Button onClick={() => handleDeleteComment(c.id, c)} className="mb-3">Delete Comment</Button>
               </>
             }
-            <Link to={`/user/${c.userId}`}><img src={c.authorImageURL} alt="" className="comment-avatar" />
+            <Link to={`/user/details/${c.userId}`}><img src={c.authorImageURL} alt="" className="comment-avatar" />
               - {c.authorName}
             </Link> 
             {new Date(c.createdAt).toLocaleString()}

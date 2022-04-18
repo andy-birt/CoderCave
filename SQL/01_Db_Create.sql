@@ -27,7 +27,8 @@ CREATE TABLE [User] (
   [FirstName] nvarchar(255) NOT NULL,
   [LastName] nvarchar(255) NOT NULL,
   [ImageURL] nvarchar(255),
-  [Bio] text
+  [Bio] text,
+  [IsActive] bit NOT NULL
 )
 GO
 

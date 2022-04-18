@@ -66,7 +66,7 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
                 <Button onClick={() => handleDeleteAnswer(a.id, a.inquireId)} className="mb-3">Delete Answer</Button>
               </>
             }
-              <Link to={`/user/${a.userId}`}>
+              <Link to={`/user/details/${a.userId}`}>
                 <img src={a.authorImageURL} alt="" style={{width: 75}} />
                 - {a.authorName} 
               </Link>

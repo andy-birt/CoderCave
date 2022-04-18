@@ -105,3 +105,13 @@
   top: 7px;
   right: 23px;
 }
+
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.user-item {
+  flex-basis: 32%;
+  margin: 5px;
+}
