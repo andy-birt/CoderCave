@@ -80,28 +80,41 @@ namespace CoderCave.Controllers
             return NoContent();
         }
 
-        [HttpPut("/deactivate/{id}")]
+        [HttpPut("deactivate/{id}")]
         public IActionResult DeactivateUser(int id)
         {
+            var user = _userRepository.GetByUserId(id);
+            var adminCount = _userRepository.CheckAdminCount();
+            
+            if (user.UserType.Type == "Admin" && adminCount < 2)
+            {
+                return BadRequest("Cannot deactivate this admin. Must have another admin first.");
+            }
+
+            if (user.UserType.Type == "Admin")
+            {
+                _userRepository.Demote(id);
+            }
+
             _userRepository.Deactivate(id);
             return NoContent();
         }
 
-        [HttpPut("/activate/{id}")]
+        [HttpPut("activate/{id}")]
         public IActionResult ActivateUser(int id)
         {
             _userRepository.Activate(id);
             return NoContent();
         }
 
-        [HttpPut("/promote/{id}")]
+        [HttpPut("promote/{id}")]
         public IActionResult PromoteUser(int id)
         {
             _userRepository.Promote(id);
             return NoContent();
         }
 
-        [HttpPut("/demote/{id}")]
+        [HttpPut("demote/{id}")]
         public IActionResult DemoteUser(int id)
         {
             var adminCount = _userRepository.CheckAdminCount();

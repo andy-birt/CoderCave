@@ -28,17 +28,31 @@ export const UserProvider = (props) => {
     return fetch(`/api/user/deactivate/${id}`, {
       method: "PUT"
     })
+      .catch(e => e.text());
   };
 
   const activateUser = (id) => {
     return fetch(`/api/user/activate/${id}`, {
       method: "PUT"
+    });
+  };
+
+  const demoteUser = (id) => {
+    return fetch(`/api/user/demote/${id}`, {
+      method: "PUT"
     })
+      .catch(e => e.text());
+  };
+
+  const promoteUser = (id) => {
+    return fetch(`/api/user/promote/${id}`, {
+      method: "PUT"
+    });
   };
 
   return (
     <UserContext.Provider value={{
-      getUserById, getCurrentUser, getActiveUsers, getInactiveUsers, deactivateUser, activateUser
+      getUserById, getCurrentUser, getActiveUsers, getInactiveUsers, deactivateUser, activateUser, demoteUser, promoteUser
     }}>
       {props.children}
     </UserContext.Provider>

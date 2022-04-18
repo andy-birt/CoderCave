@@ -108,9 +108,44 @@ namespace CoderCave.Repositories
                 {
                     cmd.CommandText = @"
                         SELECT u.Id AS UserId, u.FirebaseUserId, u.DisplayName AS DisplayName, u.Email, u.FirstName, u.LastName, u.ImageURL, u.Bio,
-                               ut.Id AS UserTypeId, ut.Name AS UserTypeName
+                               ut.Id AS UserTypeId, ut.Name AS UserTypeName,
+                               ISNULL(ic.InquireCount, 0) AS InquireCount,
+                               ISNULL(ac.AnswerCount, 0) AS AnswerCount,
+                               ISNULL(aac.AcceptedAnswerCount, 0) AS AcceptedAnswerCount,
+                               ISNULL((AnswerCommentCount + InquireCommentCount), 0) AS CommentCount
                           FROM [User] u
-                               LEFT JOIN UserType ut on u.Id = ut.UserId
+                                LEFT JOIN UserType ut on u.Id = ut.UserId
+                                LEFT JOIN
+                                    (
+                                        SELECT UserId, COUNT(UserId) AS InquireCount
+                                        FROM Inquire
+                                        GROUP BY UserId
+                                    ) ic ON u.Id = ic.UserId
+                                LEFT JOIN
+                                    (
+                                        SELECT UserId, COUNT(UserId) AS AnswerCount
+                                        FROM Answer
+                                        GROUP BY UserId
+                                    ) ac ON ac.UserId = u.Id
+                                LEFT JOIN
+                                    (
+                                        SELECT UserId, COUNT(UserId) AS AcceptedAnswerCount
+                                        FROM Answer
+                                        WHERE IsSelected = 1
+                                        GROUP BY UserId
+                                    ) aac ON aac.UserId = u.Id
+                                LEFT JOIN
+                                    (
+                                        SELECT UserId, COUNT(UserId) AS InquireCommentCount
+                                        FROM InquireComment
+                                        GROUP BY UserId
+                                    ) icc ON icc.UserId = u.Id
+                                LEFT JOIN
+                                    (
+                                        SELECT UserId, COUNT(UserId) AS AnswerCommentCount
+                                        FROM InquireComment
+                                        GROUP BY UserId
+                                    ) acc ON acc.UserId = u.Id
                          WHERE u.Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
@@ -130,12 +165,20 @@ namespace CoderCave.Repositories
                             LastName = DbUtils.GetString(reader, "LastName"),
                             ImageURL = DbUtils.GetString(reader, "ImageURL"),
                             Bio = DbUtils.GetString(reader, "Bio"),
+                            InquireCount = DbUtils.GetInt(reader, "InquireCount"),
+                            AnswerCount = DbUtils.GetInt(reader, "AnswerCount"),
+                            AcceptedAnswerCount = DbUtils.GetInt(reader, "AcceptedAnswerCount"),
+                            CommentCount = DbUtils.GetInt(reader, "CommentCount"),
                             UserType = new UserType()
                             {
                                 Id = DbUtils.GetInt(reader, "UserTypeId"),
                                 UserId = DbUtils.GetInt(reader, "UserId"),
                                 Type = DbUtils.GetString(reader, "UserTypeName")
-                            }
+                            },
+                            Inquiries = new List<Inquire>(),
+                            Answers = new List<Answer>(),
+                            InquireComments = new List<InquireComment>(),
+                            AnswerComments = new List<AnswerComment>()
                         };
                     }
                     reader.Close();

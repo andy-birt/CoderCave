@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace CoderCave.Models
 {
@@ -25,8 +26,15 @@ namespace CoderCave.Models
 
         public string ImageURL { get; set; }
         public string Bio { get; set; }
+        public int InquireCount { get; set; }
+        public int AnswerCount { get; set; }
+        public int AcceptedAnswerCount { get; set; }
+        public int CommentCount { get; set; }
 
         public UserType UserType { get; set; }
-
+        public List<Inquire> Inquiries { get; set; }
+        public List<Answer> Answers { get; set; }
+        public List<InquireComment> InquireComments { get; set; }
+        public List<AnswerComment> AnswerComments { get; set; }
     }
 }
