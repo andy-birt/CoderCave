@@ -9,6 +9,7 @@ namespace CoderCave.Models
         public int UserId { get; set; }
         public int InquireId { get; set; }
         public User User { get; set; }
+        public Inquire Inquire { get; set; }
         public string AuthorName { get; set; }
         public string AuthorImageURL { get; set; }
         public string Content { get; set; }

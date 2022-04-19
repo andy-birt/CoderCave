@@ -106,6 +106,9 @@ namespace CoderCave.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
+                    
+                    // First query will get user data with the amount user has posted content
+
                     cmd.CommandText = @"
                         SELECT u.Id AS UserId, u.FirebaseUserId, u.DisplayName AS DisplayName, u.Email, u.FirstName, u.LastName, u.ImageURL, u.Bio,
                                ut.Id AS UserTypeId, ut.Name AS UserTypeName,
@@ -181,6 +184,137 @@ namespace CoderCave.Repositories
                             AnswerComments = new List<AnswerComment>()
                         };
                     }
+                    reader.Close();
+
+                    // The second query will get the user's posted questions
+
+                    cmd.CommandText = @"
+                        SELECT TOP(5) Id, Title, CAST(Content AS NVARCHAR(150)) AS ContentSummary
+                        FROM Inquire 
+                        WHERE UserId = @InquireUserId AND IsArchived = 0
+                        ORDER BY CreatedAt DESC
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@InquireUserId", id);
+
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        userProfile.Inquiries.Add(new Inquire()
+                        { 
+                            UserId = id,
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Title = DbUtils.GetString(reader, "Title"),
+                            Content = DbUtils.GetString(reader, "ContentSummary")
+                        });
+                    }
+
+                    reader.Close();
+
+                    // The third query will get the user's posted answers
+
+                    cmd.CommandText = @"
+                        SELECT TOP(5) Answer.Id, Answer.InquireId, CAST(Answer.Content AS NVARCHAR(150)) AS ContentSummary, Answer.IsSelected, Inquire.Title
+                        FROM Answer
+                        LEFT JOIN Inquire ON Inquire.Id = Answer.InquireId
+                        WHERE Answer.UserId = @AnswerUserId
+                        ORDER BY Answer.CreatedAt DESC
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@AnswerUserId", id);
+
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        userProfile.Answers.Add(new Answer()
+                        {
+                            UserId = id,
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            InquireId = DbUtils.GetInt(reader, "InquireId"),
+                            Content = DbUtils.GetString(reader, "ContentSummary"),
+                            IsSelected = DbUtils.GetBool(reader, "IsSelected"),
+                            Inquire = new Inquire()
+                            {
+                                Id = DbUtils.GetInt(reader, "InquireId"),
+                                Title = DbUtils.GetString(reader, "Title")
+                            }
+                        });
+                    }
+
+                    reader.Close();
+
+                    // The fourth query will get the user's posted comments on questions
+
+                    cmd.CommandText = @"
+                        SELECT TOP(5) InquireComment.Id, InquireComment.InquireId, CAST(InquireComment.Content AS NVARCHAR(150)) AS ContentSummary, Inquire.Title
+                        FROM InquireComment
+                        LEFT JOIN Inquire ON Inquire.Id = InquireComment.InquireId
+                        WHERE InquireComment.UserId = @InquireCommmentUserId
+                        ORDER BY InquireComment.CreatedAt DESC
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@InquireCommmentUserId", id);
+
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        userProfile.InquireComments.Add(new InquireComment()
+                        {
+                            UserId = id,
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            InquireId = DbUtils.GetInt(reader, "InquireId"),
+                            Content = DbUtils.GetString(reader, "ContentSummary"),
+                            Inquire = new Inquire()
+                            {
+                                Id = DbUtils.GetInt(reader, "InquireId"),
+                                UserId = id,
+                                Title = DbUtils.GetString(reader, "Title"),
+                            }
+                        });
+                    }
+
+                    reader.Close();
+
+                    // The fifth query will get the user's posted comments on answers
+
+                    cmd.CommandText = @"
+                        SELECT TOP(5) AnswerComment.Id, AnswerComment.AnswerId, CAST(AnswerComment.Content AS NVARCHAR(150)) AS ContentSummary,
+                            Answer.InquireId, Inquire.Title
+                        FROM AnswerComment
+                        LEFT JOIN Answer ON Answer.Id = AnswerComment.AnswerId
+                        LEFT JOIN Inquire ON Inquire.Id = Answer.InquireId
+                        WHERE AnswerComment.UserId = @AnswerCommmentUserId
+                        ORDER BY AnswerComment.CreatedAt DESC
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@AnswerCommmentUserId", id);
+
+                    reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        userProfile.AnswerComments.Add(new AnswerComment()
+                        {
+                            UserId = id,
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            AnswerId = DbUtils.GetInt(reader, "AnswerId"),
+                            Content = DbUtils.GetString(reader, "ContentSummary"),
+                            Answer = new Answer()
+                            {
+                                Id = DbUtils.GetInt(reader, "AnswerId"),
+                                InquireId = DbUtils.GetInt(reader, "InquireId"),
+                                Inquire = new Inquire()
+                                {
+                                    Id = DbUtils.GetInt(reader, "InquireId"),
+                                    Title = DbUtils.GetString(reader, "Title")
+                                }
+                            }
+                        });
+                    }
+
                     reader.Close();
 
                     return userProfile;

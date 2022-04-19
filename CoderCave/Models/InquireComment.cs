@@ -11,5 +11,6 @@ namespace CoderCave.Models
         public string Content { get; set; }
         public int InquireId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public Inquire Inquire { get; set; }
     }
 }

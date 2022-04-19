@@ -11,5 +11,6 @@ namespace CoderCave.Models
         public string Content { get; set; }
         public int AnswerId { get; set; }
         public DateTime CreatedAt { get; set; }
+        public Answer Answer { get; set; }
     }
 }
