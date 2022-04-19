@@ -6,14 +6,26 @@ const SearchPagination = ({ result }) => {
 
   const { page } = useParams();
 
+  // Arbitrarily using the number 10 since it is my default limit per page
+  // This should be a number returned from the api
+  const totalPages = Math.ceil(result.count / 10);
+
   const pages = () => {
     const res = [];
 
-    const startPage = parseInt(page);
+    let startPage = parseInt(page);
+
+    if (startPage > 1 && startPage < 3) {
+      startPage = 1;
+    } else if (startPage >= 3) {
+      startPage -= 2
+    }
+
     let currentPage = startPage;
     
-    while (((currentPage * ((result.endValue - result.startValue) + 1)) - 1) < result.count) {
-      debugger;
+    while (
+      (currentPage - 1 < totalPages)
+    ) {
       res.push(currentPage);
       currentPage++;
     }
@@ -29,36 +41,36 @@ const SearchPagination = ({ result }) => {
 
   return(
     <Pagination>
-      <PaginationItem>
+      <PaginationItem disabled={parseInt(page) === 1}>
         <PaginationLink
           first
-          href="/search/1"
+          href="/search/page/1"
         />
       </PaginationItem>
-      <PaginationItem disabled={page - 1 === 0}>
+      <PaginationItem disabled={parseInt(page) - 1 === 0}>
         <PaginationLink
-          href={`/search/${page - 1}`}
+          href={`/search/page/${parseInt(page) - 1}`}
           previous
         />
       </PaginationItem>
       {
         pages().map(p => {
           return (
-            <PaginationItem key={p}>
-              <PaginationLink>
+            <PaginationItem key={p} active={parseInt(page) === p}>
+              <PaginationLink href={`/search/page/${p}`}>
                 {p}
               </PaginationLink>
             </PaginationItem>
           );
         })
       }
-      <PaginationItem>
+      <PaginationItem disabled={parseInt(page) === totalPages}>
         <PaginationLink
-          href={`/search/${page + 1}`}
+          href={`/search/page/${parseInt(page) + 1}`}
           next
         />
       </PaginationItem>
-      <PaginationItem>
+      <PaginationItem disabled={parseInt(page) === totalPages}>
         <PaginationLink
           href="#"
           last

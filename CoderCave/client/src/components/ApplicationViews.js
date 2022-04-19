@@ -71,7 +71,7 @@ export default function ApplicationViews({ isLoggedIn, isAdmin }) {
 
       <Route path="/user/edit/:id" element={<UserForm />} />
 
-      <Route path="/search/:page" element={<Result />} />
+      <Route path="/search/page/:page" element={<Result />} />
 
       <Route path="/login" element={<Login />} />
 

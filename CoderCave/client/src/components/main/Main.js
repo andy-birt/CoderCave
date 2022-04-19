@@ -18,7 +18,7 @@ const Main = ({ isLoggedIn }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate('/search/1');
+    navigate('/search/page/1');
   };
 
   const handleQuestionButtonClick = (e) => {
