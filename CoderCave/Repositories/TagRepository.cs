@@ -17,7 +17,7 @@ namespace CoderCave.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Name, Description
+                        SELECT Id, Name, CAST(Description AS NVARCHAR(200)) AS DescriptionSummary
                             FROM Tag
                     ";
 
@@ -30,7 +30,7 @@ namespace CoderCave.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "Name"),
-                            Description = DbUtils.GetString(reader, "Description")
+                            Description = DbUtils.GetString(reader, "DescriptionSummary")
                         });
                     }
                     reader.Close();

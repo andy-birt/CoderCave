@@ -6,9 +6,7 @@ const SearchPagination = ({ result }) => {
 
   const { page } = useParams();
 
-  // Arbitrarily using the number 10 since it is my default limit per page
-  // This should be a number returned from the api
-  const totalPages = Math.ceil(result.count / 10);
+  const totalPages = Math.ceil(result.count / result.limit);
 
   const pages = () => {
     const res = [];
@@ -18,7 +16,11 @@ const SearchPagination = ({ result }) => {
     if (startPage > 1 && startPage < 3) {
       startPage = 1;
     } else if (startPage >= 3) {
-      startPage -= 2
+      startPage -= 2;
+    } else if (totalPages - startPage < 2) {
+      startPage -= 3;
+    } else if (totalPages === startPage) {
+      startPage -= 4;
     }
 
     let currentPage = startPage;
@@ -33,7 +35,6 @@ const SearchPagination = ({ result }) => {
   };
 
   useEffect(() => {
-    console.log(result);
     if (result !== null) {
       pages();
     }

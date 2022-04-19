@@ -21,9 +21,30 @@ namespace CoderCave.Repositories
                     cmd.CommandText = $@"
                         SELECT i.Id AS InquireId, i.UserId AS InquireUserId, i.Title, i.Content AS InquireContent, 
                                CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate,
-                               iu.DisplayName AS InquireUserDisplayName
+                               iu.DisplayName AS InquireUserDisplayName,
+                               ISNULL(icc.InquireCommentsCount, 0) AS InquireCommentsCount,
+                               ISNULL(act.AnswersCount, 0) AS AnswersCount,
+                               ISNULL(vic.VotesCount, 0) AS InquireVotesCount
                         FROM Inquire i
                             LEFT JOIN [User] iu ON i.UserId = iu.Id
+                            LEFT JOIN 
+                                (
+                                    SELECT InquireId, COUNT(InquireId) AS InquireCommentsCount
+                                    FROM InquireComment
+                                    GROUP BY InquireId
+                                ) icc ON icc.InquireId = i.Id
+                            LEFT JOIN
+                                (
+                                    SELECT InquireId, COUNT(InquireId) AS AnswersCount
+                                    FROM Answer
+                                    GROUP BY InquireId
+                                ) act ON act.InquireId = i.Id
+                            LEFT JOIN
+                                (
+                                    SELECT InquireId, COUNT(DISTINCT Id) AS VotesCount
+                                    FROM VoteInquire
+                                    GROUP BY InquireId
+                                ) vic ON i.Id = vic.InquireId
                         WHERE i.Title LIKE @q OR i.Content LIKE @q AND i.IsArchived = 0
                         ORDER BY i.CreatedAt DESC
                             OFFSET {(p * l - l)} ROWS
@@ -70,7 +91,8 @@ namespace CoderCave.Repositories
                             Data = inquiries,
                             Count = DbUtils.GetInt(reader, "ResultsCount"),
                             StartValue = p * l - 9,
-                            EndValue = p * l < DbUtils.GetInt(reader, "ResultsCount") ? p * l : DbUtils.GetInt(reader, "ResultsCount")
+                            EndValue = p * l < DbUtils.GetInt(reader, "ResultsCount") ? p * l : DbUtils.GetInt(reader, "ResultsCount"),
+                            Limit = l
                         };
                     }
 
@@ -337,7 +359,10 @@ namespace CoderCave.Repositories
                 Content = DbUtils.GetString(r, "InquireContent"),
                 ContentSummary = DbUtils.GetString(r, "InquireContentSummary"),
                 CreatedAt = DbUtils.GetDateTime(r, "InquireCreationDate"),
-                AuthorName = DbUtils.GetString(r, "InquireUserDisplayName")
+                AuthorName = DbUtils.GetString(r, "InquireUserDisplayName"),
+                AnswersCount = DbUtils.GetInt(r, "AnswersCount"),
+                CommentsCount = DbUtils.GetInt(r, "InquireCommentsCount"),
+                VotesCount = DbUtils.GetInt(r, "InquireVotesCount")
             };
         }
 
