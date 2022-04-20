@@ -6,7 +6,7 @@ const Inquire = ({ inquire }) => {
   return (
     <Card className="mt-2">
       <CardBody>
-        <CardTitle tag="h5"><Link to={`/inquire/details/${inquire.id}`}>{inquire.title}</Link></CardTitle>
+        <CardTitle tag="h5"><Link to={`/inquire/details/${inquire.id}`}>{inquire.title}</Link> { inquire.answerSelected && <i className="selected-answer bi bi-check-lg"></i> }</CardTitle>
         <CardText>{inquire.contentSummary}</CardText>
       </CardBody>
       <CardBody>

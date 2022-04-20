@@ -28,5 +28,6 @@ namespace CoderCave.Models
         public int VotesCount { get; set; }
         public int Score { get; set; }
         public bool IsArchived { get; set; }
+        public bool AnswerSelected { get; set; }
     }
 }

@@ -17,8 +17,16 @@ namespace CoderCave.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT Id, Name, CAST(Description AS NVARCHAR(200)) AS DescriptionSummary
+                        SELECT Id, Name, CAST(Description AS NVARCHAR(200)) AS DescriptionSummary,
+                               ISNULL(tc.InquireCount, 0) AS InquireCount
                             FROM Tag
+                        LEFT JOIN
+                            (
+                                SELECT TagId, Count(DISTINCT InquireId) AS InquireCount
+                                FROM InquireTag
+                                GROUP BY TagId
+                            ) tc ON tc.TagId = Tag.Id
+                        ORDER BY InquireCount DESC
                     ";
 
                     List<Tag> tags = new List<Tag>();
@@ -30,7 +38,8 @@ namespace CoderCave.Repositories
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "Name"),
-                            Description = DbUtils.GetString(reader, "DescriptionSummary")
+                            Description = DbUtils.GetString(reader, "DescriptionSummary"),
+                            InquireCount = DbUtils.GetInt(reader, "InquireCount")
                         });
                     }
                     reader.Close();

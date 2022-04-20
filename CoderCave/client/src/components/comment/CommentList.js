@@ -43,7 +43,7 @@ const CommentList = ({ comments, isLoggedIn, getInquire }) => {
 
   return comments?.map(c => {
     return (
-      <Card key={c.id}>
+      <Card key={c.id} className="comment">
         <CardBody>
           <div className="mr-2"><small>{c.content} </small> </div>
           <div className="d-flex justify-content-end align-items-center comment-author-info">

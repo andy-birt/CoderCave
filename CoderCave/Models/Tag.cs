@@ -12,5 +12,6 @@ namespace CoderCave.Models
         
         [Required]
         public string Description { get; set; }
+        public int InquireCount { get; set; }
     }
 }

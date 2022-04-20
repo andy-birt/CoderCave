@@ -35,12 +35,12 @@ const Main = ({ isLoggedIn }) => {
 
   return (
     <Container>
-      <Button onClick={handleQuestionButtonClick} >Ask a Question</Button>
       <H1Logo />
       <Form onSubmit={handleSearch} >
         <div className="search-container">
           <span className="search-icon-main"><i className="bi bi-search"></i></span>
           <Input type="search" onChange={e => setSearchTerm(e.target.value)} className="main-search" placeholder="Start your search here..." />
+          <Button onClick={handleQuestionButtonClick} className="mt-3">Ask a Question</Button>
         </div>
       </Form>
       <div className="or-separator text-center">

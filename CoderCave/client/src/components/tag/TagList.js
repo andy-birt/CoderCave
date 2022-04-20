@@ -4,7 +4,7 @@ const TagList = ({ tags }) => {
   return tags?.map(t => {
     return (
       <span key={t.id}>
-        <Badge href={`/tag/details/${t.id}`}>
+        <Badge color="" className="tag" href={`/tag/details/${t.id}`}>
           {t.name}
         </Badge>
         {' '}

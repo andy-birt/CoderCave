@@ -24,7 +24,8 @@ namespace CoderCave.Repositories
                                iu.DisplayName AS InquireUserDisplayName,
                                ISNULL(icc.InquireCommentsCount, 0) AS InquireCommentsCount,
                                ISNULL(act.AnswersCount, 0) AS AnswersCount,
-                               ISNULL(vic.VotesCount, 0) AS InquireVotesCount
+                               ISNULL(vic.VotesCount, 0) AS InquireVotesCount,
+                               ISNULL(ais.IsSelected, 0) AS AnswerSelected
                         FROM Inquire i
                             LEFT JOIN [User] iu ON i.UserId = iu.Id
                             LEFT JOIN 
@@ -45,6 +46,11 @@ namespace CoderCave.Repositories
                                     FROM VoteInquire
                                     GROUP BY InquireId
                                 ) vic ON i.Id = vic.InquireId
+                            LEFT JOIN 
+                                    (
+                                        SELECT InquireId, IsSelected FROM Answer
+                                        WHERE IsSelected = 1
+                                    ) ais ON i.Id = ais.InquireId
                         WHERE i.Title LIKE @q OR i.Content LIKE @q AND i.IsArchived = 0
                         ORDER BY i.CreatedAt DESC
                             OFFSET {(p * l - l)} ROWS
@@ -115,7 +121,8 @@ namespace CoderCave.Repositories
                                 iu.DisplayName AS InquireUserDisplayName, iu.ImageURL AS InquireUserImageURL,
                                 COUNT(DISTINCT vi.Id) AS InquireVotesCount,
                                 COUNT(DISTINCT ic.Id) AS InquireCommentsCount,
-                                COUNT(DISTINCT a.Id) AS AnswersCount
+                                COUNT(DISTINCT a.Id) AS AnswersCount,
+                                ISNULL(ais.IsSelected, 0) AS AnswerSelected
                             FROM Tag t
                             LEFT JOIN InquireTag it ON t.Id = it.TagId
                             LEFT JOIN Inquire i ON i.Id = it.InquireId
@@ -123,8 +130,13 @@ namespace CoderCave.Repositories
                             LEFT JOIN InquireComment ic ON i.Id = ic.InquireId
                             LEFT JOIN [User] iu ON iu.Id = i.UserId 
 	                        LEFT JOIN Answer a ON i.Id = a.InquireId
+                            LEFT JOIN 
+                                    (
+                                        SELECT InquireId, IsSelected FROM Answer
+                                        WHERE IsSelected = 1
+                                    ) ais ON i.Id = ais.InquireId
                         WHERE t.Id = @TagId AND i.IsArchived = 0
-                        GROUP BY i.Id, i.UserId, i.Title, i.CreatedAt, iu.DisplayName, iu.ImageURL, vi.InquireId, a.InquireId, ic.InquireId, t.Id, t.[Name], CAST(t.Description AS NVARCHAR(MAX)), CAST(i.Content AS NVARCHAR(255))
+                        GROUP BY i.Id, i.UserId, i.Title, i.CreatedAt, iu.DisplayName, iu.ImageURL, vi.InquireId, a.InquireId, ic.InquireId, t.Id, t.[Name], CAST(t.Description AS NVARCHAR(MAX)), CAST(i.Content AS NVARCHAR(255)), ais.IsSelected
                         ORDER BY i.CreatedAt DESC
                     ";
 
@@ -362,7 +374,8 @@ namespace CoderCave.Repositories
                 AuthorName = DbUtils.GetString(r, "InquireUserDisplayName"),
                 AnswersCount = DbUtils.GetInt(r, "AnswersCount"),
                 CommentsCount = DbUtils.GetInt(r, "InquireCommentsCount"),
-                VotesCount = DbUtils.GetInt(r, "InquireVotesCount")
+                VotesCount = DbUtils.GetInt(r, "InquireVotesCount"),
+                AnswerSelected = DbUtils.GetBool(r, "AnswerSelected")
             };
         }
 
@@ -398,7 +411,8 @@ namespace CoderCave.Repositories
                 AuthorImageURL = DbUtils.GetString(r, "InquireUserImageURL"),
                 AnswersCount = DbUtils.GetInt(r, "AnswersCount"),
                 CommentsCount = DbUtils.GetInt(r, "InquireCommentsCount"),
-                VotesCount = DbUtils.GetInt(r, "InquireVotesCount")
+                VotesCount = DbUtils.GetInt(r, "InquireVotesCount"),
+                AnswerSelected = DbUtils.GetBool(r, "AnswerSelected")
             };
         }
 
