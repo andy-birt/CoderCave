@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Container, Form, Input } from "reactstrap";
 import { TagContext } from "../../providers/TagProvider";
 import Tag from "../tag/Tag";
@@ -12,12 +12,13 @@ const Main = ({ isLoggedIn }) => {
 
   const { setSearchTerm } = useContext(SearchContext);
 
-  
+  const [ query, setQuery ] = useState("");
 
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
+    setSearchTerm(query);
     navigate('/search/page/1');
   };
 
@@ -39,10 +40,12 @@ const Main = ({ isLoggedIn }) => {
       <Form onSubmit={handleSearch} >
         <div className="search-container">
           <span className="search-icon-main"><i className="bi bi-search"></i></span>
-          <Input type="search" onChange={e => setSearchTerm(e.target.value)} className="main-search" placeholder="Start your search here..." />
-          <Button onClick={handleQuestionButtonClick} className="mt-3">Ask a Question</Button>
+          <Input type="search" onChange={e => setQuery(e.target.value)} className="main-search" placeholder="Start your search here..." />
         </div>
       </Form>
+      <div className="text-center mt-3">
+        <Button onClick={handleQuestionButtonClick}>Ask a Question</Button>
+      </div>
       <div className="or-separator text-center">
         <div className="or-separator-line"></div>
         OR

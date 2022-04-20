@@ -75,8 +75,8 @@ const UserDetails = () => {
         <Col>
           <h4 className="mt-3 mb-3">Comments on Answers</h4>
           {user.answerComments?.map(ac => 
-            <div>
-              <p key={ac.id}>{ac.content}</p>
+            <div key={ac.id}>
+              <p>{ac.content}</p>
               <p>-- Commented on <strong><Link to={`/inquire/details/${ac.answer.inquireId}`}>{ac.answer.inquire.title}</Link></strong></p>
             </div>
           )}

@@ -16,10 +16,14 @@ const User = ({ user, status }) => {
           .then((r) => {
             if (!r.ok) {
               return r.text();
+            } else {
+              return "User is now inactive";
             }
-            getActiveUsers();
           })
-          .then(m => alert(m));
+          .then(m => {
+            getActiveUsers();
+            alert(m);
+          });
       } else {
         activateUser(user.id)
           .then(getInactiveUsers);
@@ -34,13 +38,17 @@ const User = ({ user, status }) => {
           .then((r) => {
             if (!r.ok) {
               return r.text();
+            } else {
+              return "User has been demoted";
             }
-            navigate(`/api/user/details/${user.id}`)
           })
-          .then(m => alert(m));
+          .then(m => {
+            navigate(`/user/details/${user.id}`);
+            alert(m);
+          });
       } else {
         promoteUser(user.id)
-          .then(() => navigate(`/api/user/details/${user.id}`))
+          .then(() => navigate(`/user/details/${user.id}`))
           .catch(e => alert(e));
       }
     }

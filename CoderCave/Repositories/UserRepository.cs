@@ -375,7 +375,7 @@ namespace CoderCave.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"INSERT INTO User (FirebaseUserId, Email, DisplayName, FirstName, LastName, ImageURL, Bio)
+                    cmd.CommandText = @"INSERT INTO [User] (FirebaseUserId, Email, DisplayName, FirstName, LastName, ImageURL, Bio)
                                         OUTPUT INSERTED.ID
                                         VALUES (@FirebaseUserId, @Email, @FirstName, @LastName, @ImageURL, @Bio)";
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", user.FirebaseUserId);
@@ -409,7 +409,7 @@ namespace CoderCave.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        UPDATE User
+                        UPDATE [User]
                         SET Email = @Email,
                             DisplayName = @DisplayName,
                             FirstName = @FirstName,
@@ -438,7 +438,7 @@ namespace CoderCave.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        UPDATE User
+                        UPDATE [User]
                         SET IsActive = 0
                         WHERE Id = @Id
                     ";
@@ -458,7 +458,7 @@ namespace CoderCave.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        UPDATE User
+                        UPDATE [User]
                         SET IsActive = 1
                         WHERE Id = @Id
                     ";

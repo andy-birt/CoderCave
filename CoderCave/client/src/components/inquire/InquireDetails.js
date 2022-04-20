@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import { InquireContext } from "../../providers/InquireProvider";
 import Score from "../misc/Score";
 import CommentList from "../comment/CommentList";
-import { Button } from "reactstrap";
+import { Button, Container } from "reactstrap";
 import AnswerList from "../answer/AnswerList";
 import TagList from "../tag/TagList";
 import { Link } from "react-router-dom";
@@ -88,8 +88,10 @@ const InquireDetails = ({ isLoggedIn }) => {
             </Link>
             {new Date(inquire.createdAt).toLocaleString()}  
           </div>
-          <CommentList comments={inquire.comments} isLoggedIn={isLoggedIn} getInquire={getInquire} />
-          <Button onClick={handleCommentButtonClick} >Add Comment</Button>
+          <Container className="comments-container" >
+            <CommentList comments={inquire.comments} isLoggedIn={isLoggedIn} getInquire={getInquire} />
+            <Button onClick={handleCommentButtonClick} >Add Comment</Button>
+          </Container>
         </div>
       </div>
       <AnswerList inquireUserId={inquire.userId} answers={inquire.answers} isLoggedIn={isLoggedIn} getInquire={getInquire} />

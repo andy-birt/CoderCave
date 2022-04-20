@@ -42,8 +42,8 @@ const TagDetails = ({ isLoggedIn, isAdmin }) => {
 
   return (
     <Container>
-      <h3>{tag.name}</h3>
-      { isAdmin && 
+      <h3 className="mt-3">{tag.name}</h3>
+      { (isLoggedIn && isAdmin) && 
         <>
           <Button className="mb-3" onClick={handleEditClick}>Edit Tag</Button>
           {' '}

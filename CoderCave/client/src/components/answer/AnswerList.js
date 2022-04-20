@@ -1,6 +1,6 @@
 import Score from "../misc/Score";
 import CommentList from "../comment/CommentList";
-import { Button } from "reactstrap";
+import { Button, Container } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
@@ -58,7 +58,8 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
           <div className="col-11">
             <div>{a.content}</div>
             <div className="d-flex justify-content-end align-items-center answer-author-info">
-            { currentUser.id === inquireUserId && <Button onClick={() => handleSelectAnswer(a)} className="mb-3" style={{marginRight: ".25rem"}} >Select Answer</Button> }
+            { (currentUser.id === inquireUserId && !a.isSelected) && <Button outline color="success" onClick={() => handleSelectAnswer(a)} className="mb-3" style={{marginRight: ".25rem"}} >Select Answer</Button> }
+            <div style={{ flexGrow: 1 }} ></div>
             {
               (isLoggedIn && a.userId === currentUser.id ) &&
               <>
@@ -72,8 +73,10 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
               </Link>
               &nbsp;{new Date(a.createdAt).toLocaleString()}
             </div>
-            <CommentList comments={a.comments} isLoggedIn={isLoggedIn} getInquire={getInquire} />
-            <Button onClick={() => handleCommentButtonClick(a.id)} >Add Comment</Button>
+            <Container className="comments-container">
+              <CommentList comments={a.comments} isLoggedIn={isLoggedIn} getInquire={getInquire} />
+              <Button outline onClick={() => handleCommentButtonClick(a.id)} >Add Comment</Button>
+            </Container>
           </div>
         </div>
       </div>
