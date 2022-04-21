@@ -51,14 +51,36 @@ namespace CoderCave.Repositories
                                         SELECT InquireId, IsSelected FROM Answer
                                         WHERE IsSelected = 1
                                     ) ais ON i.Id = ais.InquireId
-                        WHERE i.Title LIKE @q OR i.Content LIKE @q AND i.IsArchived = 0
+                        WHERE 
+                        
+                    ";
+
+                    var queryStringArray = q.Split(' ');
+
+                    for (int i = 0; i < queryStringArray.Length; i++)
+                    {
+                        if (i == 0)
+                        {
+                            cmd.CommandText += $@"
+                                i.Title LIKE @q{i} OR i.Content LIKE @q{i}
+                            ";
+                            DbUtils.AddParameter(cmd, $"@q{i}", $"%{queryStringArray[i]}%");
+                        }
+                        else
+                        {
+                            cmd.CommandText += $@"
+                                OR i.Title LIKE @q{i} OR i.Content LIKE @q{i}
+                            ";
+                            DbUtils.AddParameter(cmd, $"@q{i}", $"%{queryStringArray[i]}%");
+                        }
+                    }
+
+                    cmd.CommandText += $@"
+                        AND i.IsArchived = 0
                         ORDER BY i.CreatedAt DESC
                             OFFSET {(p * l - l)} ROWS
                             FETCH NEXT {l} ROWS ONLY
                     ";
-
-                    DbUtils.AddParameter(cmd, "@q", $"%{q}%");
-                    DbUtils.AddParameter(cmd, "@l", l);
 
                     var reader = cmd.ExecuteReader();
 
@@ -82,10 +104,29 @@ namespace CoderCave.Repositories
                     cmd.CommandText = $@"
                         SELECT COUNT(*) AS ResultsCount 
                             FROM Inquire i
-                        WHERE i.Title LIKE @q1 OR i.Content LIKE @q1 AND i.IsArchived = 0
+                        WHERE
                     ";
 
-                    DbUtils.AddParameter(cmd, "@q1", $"%{q}%");
+                    for (int i = 0; i < queryStringArray.Length; i++)
+                    {
+                        if (i == 0)
+                        {
+                            cmd.CommandText += $@"
+                                i.Title LIKE @qr{i} OR i.Content LIKE @qr{i}
+                            ";
+                            DbUtils.AddParameter(cmd, $"@qr{i}", $"%{queryStringArray[i]}%");
+                        }
+                        else
+                        {
+                            cmd.CommandText += $@"
+                                OR i.Title LIKE @qr{i} OR i.Content LIKE @qr{i}
+                            ";
+                            DbUtils.AddParameter(cmd, $"@qr{i}", $"%{queryStringArray[i]}%");
+                        }
+                    }
+
+                    cmd.CommandText += @" AND i.IsArchived = 0";
+
                     reader = cmd.ExecuteReader();
 
                     Result result = null;

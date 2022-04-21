@@ -25,6 +25,10 @@ img {
   margin-right: .5em;
 }
 
+pre {
+  background-color: #eee;
+}
+
 .comment {
   background-color: #ccc !important;
   margin-bottom: .5em;

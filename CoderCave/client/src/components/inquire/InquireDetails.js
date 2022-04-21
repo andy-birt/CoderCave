@@ -8,6 +8,8 @@ import AnswerList from "../answer/AnswerList";
 import TagList from "../tag/TagList";
 import { Link } from "react-router-dom";
 import { getAuth } from "firebase/auth";
+import ReactMarkdown from "react-markdown";
+import rehypeSanitize from "rehype-sanitize";
 
 const InquireDetails = ({ isLoggedIn }) => {
 
@@ -77,7 +79,10 @@ const InquireDetails = ({ isLoggedIn }) => {
           <Score voteType={'inquire'}  score={inquire.score} id={inquire.id} />
         </div>
         <div className="col-11">
-          <div>{inquire.content}</div>
+          <ReactMarkdown
+            children={inquire.content}
+            rehypePlugins={[rehypeSanitize]}
+          />
           <div className="d-flex justify-content-end align-items-center inquire-author-info">
             <div  className="details-tag-list mt-2">
               <TagList tags={inquire.tags} />

@@ -1,23 +1,8 @@
-import { useContext, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, CardBody, CardText, CardTitle } from "reactstrap";
-import { SearchContext } from "../../providers/SearchProvider";
 
 
 const Inquire = ({ inquire }) => {
-
-  // const location = useLocation();
-
-  // const { searchTerm } = useContext(SearchContext);
-
-  // useEffect(() => {
-
-  //   const onSearchResults = location.pathname.includes('search');
-
-  //   if (onSearchResults) {
-  //     console.log(searchTerm)
-  //   }
-  // }, []);
 
   return (
     <Card className="mt-2">

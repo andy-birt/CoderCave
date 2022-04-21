@@ -1,9 +1,13 @@
 import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useNavigate, useParams } from "react-router";
-import { Button, Container, Form, FormGroup, FormText, Input, Label } from "reactstrap";
+import { Button, Container, Form, FormGroup, FormText } from "reactstrap";
 import { AnswerContext } from "../../providers/AnswerProvider";
 import { InquireContext } from "../../providers/InquireProvider";
+import rehypeSanitize from "rehype-sanitize";
+import MDEditor from "@uiw/react-md-editor";
+
 
 const AnswerForm = ({ isLoggedIn }) => {
 
@@ -18,14 +22,6 @@ const AnswerForm = ({ isLoggedIn }) => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const newAnswer = { ...answer };
-
-    newAnswer[e.target.id] = e.target.value;
-
-    setAnswer(newAnswer);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,11 +56,25 @@ const AnswerForm = ({ isLoggedIn }) => {
       <Form onSubmit={handleSubmit}>
         <Button color="dark" className="mt-3 mb-3" outline onClick={() => navigate(-1)} >Back</Button>
         <h3>{inquire.title}</h3>
-        <FormText>{inquire.content}</FormText>
+        <ReactMarkdown
+          children={inquire.content}
+          rehypePlugins={[rehypeSanitize]}
+        />
         <p></p>
         <FormGroup>
-          <Label>Content</Label>
-          <Input onChange={handleChange} defaultValue={answer.content} id="content" type="textarea" placeholder="What would you do to solve this problem? Talk about that in as much detail as possible." />
+          <FormText>Be very descriptive and thorough with how you answer this question. </FormText>
+          <FormText>If you know Markdown you can type it freely in the text editor. </FormText>
+          <FormText>You can see your text appear in the preview section to give you an idea how your answer will look. </FormText>
+          <FormText>If you need help with Markdown. There's a nice <a href="https://www.markdownguide.org/cheat-sheet/">Cheat Sheet</a> you can use to familiarize yourself with the syntax.</FormText>
+          <FormText> Remember, syntax matters!</FormText>
+          <p></p>
+          <MDEditor
+          value={answer.content}
+          onChange={(content) => setAnswer({ ...answer, content: content })}
+          previewOptions={{
+            rehypePlugins: [[rehypeSanitize]],
+          }}
+        />
         </FormGroup>
         <Button type="submit" >Submit</Button>
       </Form>

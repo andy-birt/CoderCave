@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { AnswerContext } from "../../providers/AnswerProvider";
+import ReactMarkdown from "react-markdown";
+import rehypeSanitize from "rehype-sanitize";
 
 const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
 
@@ -56,7 +58,10 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
             <Score voteType={'answer'} score={a.score} isSelected={a.isSelected} id={a.id} />
           </div>
           <div className="col-11">
-            <div>{a.content}</div>
+            <ReactMarkdown
+              children={a.content}
+              rehypePlugins={[rehypeSanitize]}
+            />
             <div className="d-flex justify-content-end align-items-center answer-author-info">
             { (currentUser.id === inquireUserId && !a.isSelected) && <Button outline color="success" onClick={() => handleSelectAnswer(a)} className="mb-3" style={{marginRight: ".25rem"}} >Select Answer</Button> }
             <div style={{ flexGrow: 1 }} ></div>

@@ -4,6 +4,8 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { Button, Container, Form, FormGroup, FormText, Input, Label } from "reactstrap";
 import { AnswerContext } from "../../providers/AnswerProvider";
 import { CommentContext } from "../../providers/CommentProvider";
+import ReactMarkdown from "react-markdown";
+import rehypeSanitize from "rehype-sanitize";
 
 const AnswerCommentForm = ({ isLoggedIn }) => {
 
@@ -77,11 +79,14 @@ const AnswerCommentForm = ({ isLoggedIn }) => {
       <Form onSubmit={handleSubmit}>
         <Button color="dark" className="mt-3 mb-3" outline onClick={() => navigate(-1)} >Back</Button>
         <h3>Answer</h3>
-        <FormText>{answer.content}</FormText>
+        <ReactMarkdown
+          children={answer.content}
+          rehypePlugins={[rehypeSanitize]}
+        />
         <p></p>
         <FormGroup>
-          <Label>Content</Label>
-          <Input onChange={handleChange} defaultValue={comment.content} id="content" type="textarea" placeholder="What do you think about this question?" />
+        <FormText>When making a comment on an answer make sure it is substantial and most of all, be nice!</FormText>
+          <Input onChange={handleChange} defaultValue={comment.content} id="content" type="textarea" placeholder="What do you think about this answer?" />
         </FormGroup>
         <Button type="submit" >Submit</Button>
       </Form>

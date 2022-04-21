@@ -1,9 +1,11 @@
 import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Form, FormGroup, FormText, Input, Label } from "reactstrap";
 import { InquireContext } from "../../providers/InquireProvider";
 import { TagContext } from "../../providers/TagProvider";
+import MDEditor from '@uiw/react-md-editor';
+import rehypeSanitize from "rehype-sanitize";
 
 
 const InquireForm = ({ isLoggedIn }) => {
@@ -78,12 +80,29 @@ const InquireForm = ({ isLoggedIn }) => {
     <Form onSubmit={handleSubmit}>
       <Button color="dark" className="mt-3 mb-3" outline onClick={() => navigate(-1)} >Back</Button>
       <FormGroup>
-        <Label>Title</Label>
+        <FormText>
+          Write out your question with substantial detail. Make it as specific as you possibly can.
+          It can take much longer to have your question answered if it is too vague.
+        </FormText>
+        <p></p>
         <Input onChange={handleChange} defaultValue={inquire.title} id="title" placeholder="Enter question here" />
       </FormGroup>
       <FormGroup>
-        <Label>Content</Label>
-        <Input onChange={handleChange} defaultValue={inquire.content} id="content" type="textarea" placeholder="Talk about your question in more detail" />
+        <FormText>
+          Be very descriptive and thorough with how you answer this question. 
+          If you know Markdown you can type it freely in the text editor. 
+          You can see your text appear in the preview section to give you an idea how your answer will look. 
+          If you need help with Markdown. There's a nice <a href="https://www.markdownguide.org/cheat-sheet/">Cheat Sheet</a> you can use to familiarize yourself with the syntax.
+          Remember, syntax matters!
+        </FormText>
+        <p></p>
+        <MDEditor
+          value={inquire.content}
+          onChange={(content) => setInquire({ ...inquire, content: content })}
+          previewOptions={{
+            rehypePlugins: [[rehypeSanitize]],
+          }}
+        />
       </FormGroup>
       <FormGroup>
         <Label>

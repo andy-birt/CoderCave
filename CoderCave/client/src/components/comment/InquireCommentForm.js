@@ -1,9 +1,11 @@
 import { getAuth } from "firebase/auth";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { Button, Container, Form, FormGroup, FormText, Input, Label } from "reactstrap";
+import { Button, Container, Form, FormGroup, FormText, Input } from "reactstrap";
 import { CommentContext } from "../../providers/CommentProvider";
 import { InquireContext } from "../../providers/InquireProvider";
+import ReactMarkdown from "react-markdown";
+import rehypeSanitize from "rehype-sanitize";
 
 const InquireCommentForm = ({ isLoggedIn }) => {
 
@@ -68,10 +70,13 @@ const InquireCommentForm = ({ isLoggedIn }) => {
       <Form onSubmit={handleSubmit}>
         <Button color="dark" className="mt-3 mb-3" outline onClick={() => navigate(-1)} >Back</Button>
         <h3>{inquire.title}</h3>
-        <FormText>{inquire.content}</FormText>
+        <ReactMarkdown
+          children={inquire.content}
+          rehypePlugins={[rehypeSanitize]}
+        />
         <p></p>
         <FormGroup>
-          <Label>Content</Label>
+          <FormText>When making a comment on a question make sure it is substantial and most of all, be nice!</FormText>
           <Input onChange={handleChange} defaultValue={comment.content} id="content" type="textarea" placeholder="What do you think about this question?" />
         </FormGroup>
         <Button type="submit" >Submit</Button>

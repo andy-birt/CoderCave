@@ -59,7 +59,7 @@ export default function ApplicationViews({ isLoggedIn, isAdmin }) {
 
       <Route path="/tag/edit/:id" element={isAdmin ? <TagForm /> : <>Turn Back Now</>} />
 
-      <Route path="/tag/details/:id" element={<TagDetails isAdmin={isAdmin} />} />
+      <Route path="/tag/details/:id" element={<TagDetails isLoggedIn={isLoggedIn} isAdmin={isAdmin} />} />
 
       <Route path="/tag/questions/:id" element={<InquireList isLoggedIn={isLoggedIn} />} />
 
