@@ -24,7 +24,7 @@ const AnswerList = ({ inquireUserId, answers, isLoggedIn, getInquire }) => {
     if (isLoggedIn) {
       navigate(`/inquire/answer/comment/${id}`);
     } else {
-      alert("You must be logged in to comment on a question");
+      alert("You must be logged in to comment on an answer");
     }
   };
 
