@@ -92,7 +92,7 @@ const InquireForm = ({ isLoggedIn }) => {
           Be very descriptive and thorough with how you answer this question. 
           If you know Markdown you can type it freely in the text editor. 
           You can see your text appear in the preview section to give you an idea how your answer will look. 
-          If you need help with Markdown. There's a nice <a href="https://www.markdownguide.org/cheat-sheet/">Cheat Sheet</a> you can use to familiarize yourself with the syntax.
+          If you need help with Markdown. There's a nice <a target="_blank" rel="noreferrer" href="https://www.markdownguide.org/cheat-sheet/">Cheat Sheet</a> you can use to familiarize yourself with the syntax.
           Remember, syntax matters!
         </FormText>
         <p></p>
