@@ -18,8 +18,10 @@ const Main = ({ isLoggedIn }) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSearchTerm(query);
-    navigate('/search/page/1');
+    if (query.trim()) {
+      setSearchTerm(query);
+      navigate('/search/page/1');
+    }
   };
 
   const handleQuestionButtonClick = (e) => {
