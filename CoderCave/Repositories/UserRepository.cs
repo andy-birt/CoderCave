@@ -115,7 +115,7 @@ namespace CoderCave.Repositories
                                ISNULL(ic.InquireCount, 0) AS InquireCount,
                                ISNULL(ac.AnswerCount, 0) AS AnswerCount,
                                ISNULL(aac.AcceptedAnswerCount, 0) AS AcceptedAnswerCount,
-                               ISNULL((AnswerCommentCount + InquireCommentCount), 0) AS CommentCount
+                               (ISNULL(acc.AnswerCommentCount, 0) + ISNULL(icc.InquireCommentCount, 0)) AS CommentCount
                           FROM [User] u
                                 LEFT JOIN UserType ut on u.Id = ut.UserId
                                 LEFT JOIN
@@ -146,7 +146,7 @@ namespace CoderCave.Repositories
                                 LEFT JOIN
                                     (
                                         SELECT UserId, COUNT(UserId) AS AnswerCommentCount
-                                        FROM InquireComment
+                                        FROM AnswerComment
                                         GROUP BY UserId
                                     ) acc ON acc.UserId = u.Id
                          WHERE u.Id = @Id";
