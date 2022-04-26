@@ -87,7 +87,7 @@ const InquireDetails = ({ isLoggedIn }) => {
             <div  className="details-tag-list mt-2">
               <TagList tags={inquire.tags} />
             </div>
-            <Link to={`/user/${inquire.userId}`}>
+            <Link to={`/user/details/${inquire.userId}`}>
               <img src={inquire.authorImageURL} alt="" style={{width: 75}} />
               - {inquire.authorName} 
             </Link>
