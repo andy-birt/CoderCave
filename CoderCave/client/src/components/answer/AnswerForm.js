@@ -35,11 +35,7 @@ const AnswerForm = ({ isLoggedIn }) => {
   };
 
   useEffect(() => {
-    if (!inquire.id) {
-      getInquire(inquire.id);
-    }
-
-    if (id === answer.id) {
+    if (isLoggedIn && parseInt(id) !== inquire.id) {
       getAnswerById(id)
       .then(setAnswer);
     } else if (isLoggedIn) {
