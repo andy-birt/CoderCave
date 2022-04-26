@@ -210,7 +210,7 @@ namespace CoderCave.Repositories
                 {
                     cmd.CommandText = @$"
                         {BeefySelect()}
-                        WHERE i.Id = @Id AND i.IsArchived = 0
+                        WHERE i.Id = @Id
                         ORDER BY a.IsSelected DESC, AnswerScore DESC
                     ";
 
@@ -430,6 +430,7 @@ namespace CoderCave.Repositories
                 Content = DbUtils.GetString(r, "InquireContent"),
                 ContentSummary = DbUtils.GetString(r, "InquireContentSummary"),
                 CreatedAt = DbUtils.GetDateTime(r, "InquireCreationDate"),
+                IsArchived = DbUtils.GetBool(r, "IsArchived"),
                 AuthorName = DbUtils.GetString(r, "InquireUserDisplayName"),
                 AuthorImageURL = DbUtils.GetString(r, "InquireUserImageURL"),
                 AnswersCount = DbUtils.GetInt(r, "AnswersCount"),
@@ -516,7 +517,7 @@ namespace CoderCave.Repositories
         {
             return @"
                         SELECT t.Id AS TagId, t.[Name] AS TagName, CAST(t.Description AS NVARCHAR(MAX)) AS TagDescription,
-                               i.Id AS InquireId, i.UserId AS InquireUserId, i.Title, CAST(i.Content AS NVARCHAR(MAX)) AS InquireContent, CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate,
+                               i.Id AS InquireId, i.UserId AS InquireUserId, i.Title, CAST(i.Content AS NVARCHAR(MAX)) AS InquireContent, CAST(i.Content AS NVARCHAR(255)) AS InquireContentSummary, i.CreatedAt AS InquireCreationDate, i.IsArchived,
                                iu.DisplayName AS InquireUserDisplayName, iu.ImageURL AS InquireUserImageURL,
                                ic.Id AS InquireCommentId, CAST(ic.Content AS NVARCHAR(MAX)) AS InquireCommentContent, ic.CreatedAt AS InquireCommentCreationDate,
                                icu.Id AS InquireCommentUserId, icu.DisplayName AS InquireCommentUserDisplayName, icu.ImageURL AS InquireCommentUserImageURL,
